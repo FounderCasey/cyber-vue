@@ -11,15 +11,15 @@
       <article class="flexbox posting">
         <div class="flex-item-posting">
           <div class="image"></div>
+          <div class="flex-item-posting">
+            <h3 class="flex-b-100">Job Title</h3>
+            <h4>Company</h4>
+            <p id="dash">-</p>
+            <p>Location</p>
+          </div>
         </div>
-        <div class="flex-item-posting">
-          <h3 class="flex-b-100">Job Title</h3>
-          <h4>Company</h4>
-          <p id="dash">-</p>
-          <p>Location</p>
-        </div>
-        <div class="flex-item-posting">
-          <p>Featured</p>
+        <div class="flex-item-posting flex-end">
+          <p class="featured">Featured</p>
         </div>
       </article>
       <br />
@@ -54,7 +54,12 @@ export default {
 article {
   background: #c7c3fa;
   border-bottom: solid 8px #dfe7ed;
-  width: 650px;
+  min-width: 675px;
+}
+
+.featured {
+  background: #fced68;
+  padding: 5px;
 }
 
 .posting {
@@ -63,7 +68,6 @@ article {
 
   .flex-item-posting {
     flex: 1 0 20%;
-    border: solid;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -91,6 +95,19 @@ article {
       width: 50px;
       height: 50px;
       background-color: #9e98f0;
+      align-self: center;
+      margin: 0 25px;
+    }
+  }
+
+  .flex-end {
+    justify-content: flex-end;
+    align-content: center;
+
+    margin-right: 25px;
+
+    p {
+      margin: 0;
     }
   }
 }
