@@ -1,10 +1,36 @@
 <template>
-  <div class="home">
-    <div>
-      <h2>Hello H2 tag</h2>
-      <p>Hello P tag</p>
-    </div>
-  </div>
+  <section class="home">
+    <header class="flexbox">
+      <div class="flex-item">
+        <h1>Cyber Security Jobs</h1>
+        <h4>Cyber Security Jobs is the number one place to find current openings in Cyber Security at top companies.</h4>
+        <button>Post a Job</button>
+      </div>
+    </header>
+    <section class="flexbox column">
+      <article class="flexbox posting">
+        <div class="flex-item-posting">
+          <div class="image"></div>
+        </div>
+        <div class="flex-item-posting">
+          <h3 class="flex-b-100">Job Title</h3>
+          <h4>Company</h4>
+          <p id="dash">-</p>
+          <p>Location</p>
+        </div>
+        <div class="flex-item-posting">
+          <p>Featured</p>
+        </div>
+      </article>
+      <br />
+      <article class="flexbox posting">
+        <h3>Job Title</h3>
+        <h4>Company</h4>
+        <p>Location</p>
+        <p>August, 1</p>
+      </article>
+    </section>
+  </section>
 </template>
 
 <script>
@@ -15,13 +41,57 @@ export default {
 
 
 <style lang="scss" scoped>
-div {
-  h2 {
-    color: green;
-  }
+.flexbox {
+  display: flex;
+  justify-content: center;
+}
 
-  p {
-    color: red;
+.column {
+  flex-direction: column;
+  align-items: center;
+}
+
+article {
+  background: #c7c3fa;
+  border-bottom: solid 8px #dfe7ed;
+  width: 650px;
+}
+
+.posting {
+  justify-content: space-around;
+  align-items: center;
+
+  .flex-item-posting {
+    flex: 1 0 20%;
+    border: solid;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: center;
+
+    h3 {
+      text-align: left;
+    }
+
+    h4,
+    p {
+      margin-top: 0;
+    }
+
+    #dash {
+      margin: 0 5px;
+    }
+
+    .flex-b-100 {
+      flex: 1 0 100%;
+      margin-bottom: 0;
+    }
+
+    .image {
+      width: 50px;
+      height: 50px;
+      background-color: #9e98f0;
+    }
   }
 }
 </style>
