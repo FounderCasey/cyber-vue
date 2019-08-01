@@ -4,38 +4,51 @@
       <div class="flex-item">
         <h1>Cyber Security Jobs</h1>
         <h4>Cyber Security Jobs is the number one place to find current openings in Cyber Security at top companies.</h4>
-        <button>Post a Job</button>
+        <button @click="toPost" class="post-btn">Post a Job</button>
       </div>
     </header>
     <section class="flexbox column">
-      <article class="flexbox posting">
+      <article class="flexbox posting" v-for="(item, index) in postings" :key="index">
         <div class="flex-item-posting">
-          <div class="image"></div>
+          <div class="image-div">
+            <div class="image" v-if="!item.image"></div>
+          </div>
           <div class="flex-item-posting">
-            <h3 class="flex-b-100">Job Title</h3>
-            <h4>Company</h4>
+            <h3 class="flex-b-100">{{ item.title }}</h3>
+            <h4>{{ item.company }}</h4>
             <p id="dash">-</p>
-            <p>Location</p>
+            <p>{{ item.location }}</p>
           </div>
         </div>
         <div class="flex-item-posting flex-end">
-          <p class="featured">Featured</p>
+          <p class="featured" v-if="item.featured">Featured</p>
+          <p v-else>{{ item.date }}</p>
         </div>
-      </article>
-      <br />
-      <article class="flexbox posting">
-        <h3>Job Title</h3>
-        <h4>Company</h4>
-        <p>Location</p>
-        <p>August, 1</p>
       </article>
     </section>
   </section>
 </template>
 
 <script>
+import { db } from "../main";
+
 export default {
-  name: "home"
+  name: "home",
+  data() {
+    return {
+      postings: []
+    };
+  },
+  methods: {
+    toPost: function() {
+      this.$router.replace("post");
+    }
+  },
+  firestore() {
+    return {
+      postings: db.collection("postings")
+    };
+  }
 };
 </script>
 
@@ -51,10 +64,29 @@ export default {
   align-items: center;
 }
 
+.post-btn {
+  border: none;
+  outline: none;
+
+  padding: 10px 15px;
+  background: #6558f5;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  border-bottom: solid 5px #dfe7ed;
+  transition: 300ms;
+}
+
+.post-btn:hover {
+  cursor: pointer;
+  border-bottom: solid 5px #fced68;
+}
+
 article {
   background: #c7c3fa;
   border-bottom: solid 8px #dfe7ed;
   min-width: 675px;
+  margin: 10px;
 }
 
 .featured {
@@ -91,12 +123,16 @@ article {
       margin-bottom: 0;
     }
 
-    .image {
-      width: 50px;
-      height: 50px;
-      background-color: #9e98f0;
+    .image-div {
       align-self: center;
       margin: 0 25px;
+
+      .image {
+        width: 50px;
+        height: 50px;
+        background-color: #9e98f0;
+        align-self: center;
+      }
     }
   }
 
