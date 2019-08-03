@@ -11,7 +11,7 @@
       <article class="flexbox posting" v-for="(item, index) in postings" :key="index">
         <div class="flex-item-posting">
           <div class="image-div">
-            <div class="image" v-if="!item.image"></div>
+            <img class="image" v-if="item.image_url" :src="`${item.image_url}`" alt />
           </div>
           <div class="flex-item-posting">
             <h3 class="flex-b-100">{{ item.title }}</h3>
@@ -84,7 +84,6 @@ export default {
 
 article {
   background: #c7c3fa;
-  border-bottom: solid 8px #dfe7ed;
   min-width: 675px;
   margin: 10px;
 }
@@ -126,12 +125,14 @@ article {
     .image-div {
       align-self: center;
       margin: 0 25px;
-
+      display: flex;
       .image {
         width: 50px;
         height: 50px;
         background-color: #9e98f0;
         align-self: center;
+        border: solid;
+        border-radius: 100%;
       }
     }
   }
