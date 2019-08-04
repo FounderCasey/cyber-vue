@@ -3,7 +3,7 @@
     <header class="flexbox">
       <div class="flex-item">
         <h1>Cyber Security Jobs</h1>
-        <h4>Cyber Security Jobs is the number one place to find current openings in Cyber Security at top companies.</h4>
+        <h3>Cyber Security Jobs is the number one place to find current openings in Cyber Security at top companies.</h3>
         <button @click="toPost" class="post-btn">Post a Job</button>
       </div>
     </header>
@@ -68,23 +68,23 @@ export default {
   border: none;
   outline: none;
 
-  padding: 10px 15px;
+  padding: 15px 35px;
   background: #6558f5;
   color: white;
   font-weight: 600;
-  font-size: 1rem;
-  border-bottom: solid 5px #dfe7ed;
+  font-size: 1.2rem;
+  border-bottom: solid 8px #dfe7ed;
   transition: 300ms;
 }
 
 .post-btn:hover {
   cursor: pointer;
   border-bottom: solid 5px #fced68;
+  margin-bottom: 3px;
 }
 
 article {
   background: #c7c3fa;
-  min-width: 675px;
   margin: 10px;
 }
 
@@ -94,11 +94,11 @@ article {
 }
 
 .posting {
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  width: 800px;
 
   .flex-item-posting {
-    flex: 1 0 20%;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
