@@ -33,7 +33,6 @@
 
 <script>
 import firebase from "firebase";
-import router from "../router";
 
 export default {
   name: "home",
@@ -93,23 +92,6 @@ header {
 .column {
   flex-direction: column;
   align-items: center;
-}
-
-.post-btn {
-  border: none;
-  outline: none;
-
-  padding: 15px 35px;
-  background: #6558f5;
-  color: white;
-  font-weight: 600;
-  font-size: 1.2rem;
-  border-bottom: solid 8px #dfe7ed;
-  transition: 300ms;
-}
-
-.post-btn:hover {
-  cursor: pointer;
 }
 
 article {

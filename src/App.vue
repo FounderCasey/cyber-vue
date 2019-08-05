@@ -51,4 +51,19 @@
     color: #111;
   }
 }
+
+.post-btn {
+  border: none;
+  outline: none;
+
+  padding: 15px 35px;
+  background: #6558f5;
+  color: white;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.post-btn:hover {
+  cursor: pointer;
+}
 </style>

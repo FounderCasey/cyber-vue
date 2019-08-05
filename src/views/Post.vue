@@ -1,7 +1,17 @@
 <template>
   <section>
-    <h2>{{ post.title }}</h2>
-    <p>{{ post.company }}</p>
+    <div class="container">
+      <div class="post-header">
+        <p id="date-p">{{ post.date }}</p>
+        <h2>{{ post.title }}</h2>
+        <h4>{{ post.company }} - {{ post.location }}</h4>
+        <br />
+        <button class="post-btn">Apply Now</button>
+      </div>
+      <div class="post-body">
+        <p>{{ post.description }}</p>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -42,31 +52,38 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.flexbox {
-  width: 800px;
-  margin: 0 auto;
-  border: solid;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 50px;
-
-  .tab {
-    border-bottom: solid #6558f5;
-
-    h4 {
-      margin-bottom: 0;
-      text-align: left;
-    }
-
-    h3 {
-      margin-top: 5px;
-    }
-  }
-}
-
-.form-container {
-  border: solid;
+.container {
   width: 800px;
   margin: auto;
+}
+
+.post-header {
+  display: flex;
+  flex-wrap: wrap;
+
+  #date-p {
+    color: rgb(124, 124, 124);
+    font-size: 1rem;
+    flex-basis: 100%;
+    text-align: left;
+    margin: 0;
+  }
+
+  h2 {
+    flex-basis: 100%;
+    text-align: left;
+    margin: 3px 0;
+  }
+
+  h4 {
+    flex-basis: 100%;
+    text-align: left;
+    margin: 0;
+    margin-bottom: 15px;
+  }
+
+  button {
+    align-self: flex-start;
+  }
 }
 </style>
