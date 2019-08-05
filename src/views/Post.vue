@@ -1,53 +1,34 @@
 <template>
   <section>
-    <h2>Hire from the best Cyber Security candidates</h2>
-    <div class="flexbox">
-      <div class="tab">
-        <h4>Step 1</h4>
-        <h3>Create Job Ad</h3>
-      </div>
-      <div class="tab">
-        <h4>Step 2</h4>
-        <h3>Review Job Ad</h3>
-      </div>
-      <div class="tab">
-        <h4>Step 3</h4>
-        <h3>Post Job Ad</h3>
-      </div>
-    </div>
-    <div>
-      <div class="form-container" v-if="step === 0">
-        <p>Step 1</p>
-        <form>
-          <p>Job Title</p>
-          <input type="text" />
-          <div>
-            <div>
-              <p>Location</p>
-
-              <input type="radio" /> Remote
-              <input type="radio" /> Onsite
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="form-container" v-if="step === 1">
-        <p>Step 2</p>
-      </div>
-      <div class="form-container" v-if="step === 2">
-        <p>Step 3</p>
-      </div>
-    </div>
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.company }}</p>
   </section>
 </template>
 
 <script>
+import firebase from "firebase";
+
 export default {
   name: "post",
   data() {
     return {
-      step: 0
+      key: "",
+      post: {}
     };
+  },
+  created() {
+    const ref = firebase
+      .firestore()
+      .collection("postings")
+      .doc(this.$route.params.id);
+    ref.get().then(doc => {
+      if (doc.exists) {
+        this.key = doc.id;
+        this.post = doc.data();
+      } else {
+        this.$router.replace("/");
+      }
+    });
   },
   methods: {
     prev: function() {

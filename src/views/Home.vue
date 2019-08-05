@@ -4,25 +4,27 @@
       <div class="flex-item">
         <h1>Cyber Security Jobs</h1>
         <h3>Cyber Security Jobs is the number one place to find current openings in Cyber Security at top companies.</h3>
-        <button @click="toPost" class="post-btn">Post a Job</button>
+        <button @click="toNew" class="post-btn">Post a Job</button>
       </div>
     </header>
-    <section class="flexbox column">
+    <section class="flexbox column posts">
       <article class="flexbox posting" v-for="(item, index) in postings" :key="index">
-        <div class="flex-item-posting">
-          <div class="image-div">
-            <img class="image" v-if="item.image_url" :src="`${item.image_url}`" alt />
-          </div>
+        <div class="flexbox posting" @click="details(item)">
           <div class="flex-item-posting">
-            <h3 class="flex-b-100">{{ item.title }}</h3>
-            <h4>{{ item.company }}</h4>
-            <p id="dash">-</p>
-            <p>{{ item.location }}</p>
+            <div class="image-div">
+              <img class="image" v-if="item.image_url" :src="`${item.image_url}`" alt />
+            </div>
+            <div class="flex-item-posting">
+              <h3 class="flex-b-100">{{ item.title }}</h3>
+              <h4>{{ item.company }}</h4>
+              <p id="dash">-</p>
+              <p>{{ item.location }}</p>
+            </div>
           </div>
-        </div>
-        <div class="flex-item-posting flex-end">
-          <p class="featured" v-if="item.featured">Featured</p>
-          <p v-else>{{ item.date }}</p>
+          <div class="flex-item-posting flex-end">
+            <p class="featured" v-if="item.featured">Featured</p>
+            <p v-else>{{ item.date }}</p>
+          </div>
         </div>
       </article>
     </section>
@@ -30,30 +32,59 @@
 </template>
 
 <script>
-import { db } from "../main";
+import firebase from "firebase";
+import router from "../router";
 
 export default {
   name: "home",
   data() {
     return {
-      postings: []
+      postings: [],
+      ref: firebase.firestore().collection("postings")
     };
+  },
+  created() {
+    this.ref.onSnapshot(querySnapshot => {
+      this.postings = [];
+      querySnapshot.forEach(doc => {
+        this.postings.push({
+          key: doc.id,
+          title: doc.data().title,
+          company: doc.data().company,
+          date: doc.data().date,
+          image_url: doc.data().image_url,
+          location: doc.data().location,
+          featured: doc.data().featured
+        });
+      });
+    });
   },
   methods: {
-    toPost: function() {
-      this.$router.replace("post");
+    toNew: function() {
+      this.$router.replace("new");
+    },
+    details(post) {
+      this.$router.replace(`/${post.key}`);
     }
-  },
-  firestore() {
-    return {
-      postings: db.collection("postings")
-    };
   }
 };
 </script>
 
 
 <style lang="scss" scoped>
+header {
+  height: 35vh;
+  padding: 20px 0;
+  h3 {
+    margin: 30px auto;
+    width: 75%;
+  }
+}
+
+.posts {
+  padding: 20px 0;
+}
+
 .flexbox {
   display: flex;
   justify-content: center;
@@ -79,8 +110,6 @@ export default {
 
 .post-btn:hover {
   cursor: pointer;
-  border-bottom: solid 5px #fced68;
-  margin-bottom: 3px;
 }
 
 article {
@@ -91,6 +120,10 @@ article {
 .featured {
   background: #fced68;
   padding: 5px;
+}
+
+.posting:hover {
+  cursor: pointer;
 }
 
 .posting {

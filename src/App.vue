@@ -1,8 +1,17 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link>|
-      <router-link to="/about">About</router-link>
+      <ul>
+        <li>
+          <router-link to="/">Home</router-link>
+        </li>
+        <li>
+          <router-link to="/">Jobs</router-link>
+        </li>
+        <li>
+          <router-link to="/new">Post a Job</router-link>
+        </li>
+      </ul>
     </div>
     <router-view />
   </div>
@@ -18,13 +27,28 @@
   font-size: 1.2rem;
 }
 #nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  li {
+    float: left;
+  }
+
+  li a {
+    display: block;
     color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+
+  /* Change the link color to #111 (black) on hover */
+  li a:hover {
+    color: #111;
   }
 }
 </style>
