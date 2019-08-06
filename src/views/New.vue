@@ -18,7 +18,7 @@
     <div>
       <div class="form-container" v-if="step === 0">
         <p>Step 1</p>
-        <form>
+        <form @submit.prevent>
           <p>Job Title</p>
           <input type="text" />
           <div>
@@ -29,6 +29,9 @@
               <input type="radio" /> Onsite
             </div>
           </div>
+          <div>
+            <Editor></Editor>
+          </div>
         </form>
       </div>
       <div class="form-container" v-if="step === 1">
@@ -36,12 +39,15 @@
       </div>
       <div class="form-container" v-if="step === 2">
         <p>Step 3</p>
+        <input type="submit" />
       </div>
     </div>
   </section>
 </template>
 
 <script>
+import Editor from "../components/Editor";
+
 export default {
   name: "new",
   data() {
@@ -56,6 +62,9 @@ export default {
     next: function() {
       this.step++;
     }
+  },
+  components: {
+    Editor
   }
 };
 </script>
