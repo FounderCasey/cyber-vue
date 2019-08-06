@@ -9,7 +9,11 @@
         <button class="post-btn">Apply Now</button>
       </div>
       <div class="post-body">
-        <p>{{ post.description }}</p>
+        <p v-html="`${post.description}`"></p>
+      </div>
+      <div class="post-footer">
+        <button class="post-btn">Apply Now</button>
+        <h4>Doesn't seem like a fit? Share this job!</h4>
       </div>
     </div>
   </section>
@@ -85,5 +89,9 @@ export default {
   button {
     align-self: flex-start;
   }
+}
+
+.post-body {
+  text-align: left;
 }
 </style>
