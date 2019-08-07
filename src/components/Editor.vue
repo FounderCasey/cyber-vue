@@ -1,6 +1,6 @@
 <template>
   <div class="editor">
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
+    <editor-menu-bar class="menubar-parent" :editor="editor" v-slot="{ commands, isActive }">
       <div class="menubar">
         <button
           class="menubar__button"
@@ -69,7 +69,7 @@
         </button>
       </div>
     </editor-menu-bar>
-    <editor-content class="editor__content editor" :editor="editor" />
+    <editor-content class="editor__content" :editor="editor" />
   </div>
 </template>
 
@@ -83,8 +83,7 @@ import {
   Bold,
   Italic,
   Link,
-  Underline,
-  Placeholder
+  Underline
 } from "tiptap-extensions";
 
 export default {
@@ -103,12 +102,7 @@ export default {
           new Link(),
           new Bold(),
           new Italic(),
-          new Underline(),
-          new Placeholder({
-            emptyNodeClass: "is-empty",
-            emptyNodeText: "Write something …",
-            showOnlyWhenEditable: true
-          })
+          new Underline()
         ]
       })
     };
@@ -121,8 +115,8 @@ export default {
 
 <style lang="scss">
 .menubar {
-  margin-bottom: 1rem;
   transition: visibility 0.2s 0.4s, opacity 0.2s 0.4s;
+  padding: 10px 0;
 }
 .menubar.is-hidden {
   visibility: hidden;
@@ -135,27 +129,34 @@ export default {
 }
 .menubar__button {
   font-weight: bold;
-  display: inline-flex;
+  font-size: 1rem;
   background: transparent;
   border: 0;
-  color: #000;
-  padding: 0.2rem 0.5rem;
-  margin-right: 0.2rem;
+  color: #a3a3a3;
   border-radius: 3px;
   cursor: pointer;
+  padding: 5px 10px;
+  margin: 0 4px;
 }
+
 .menubar__button:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: #0000000d;
+  color: #6558f5;
 }
 .menubar__button.is-active {
-  background-color: rgba(149, 34, 216, 0.1);
+  background-color: #5050501a;
+  color: #6558f5;
 }
 .menubar span.menubar__button {
   font-size: 13.3333px;
 }
 
-.editor {
-  min-height: 300px;
+.ProseMirror {
+  height: 300px;
+  text-align: left;
   outline: none;
+  background: #f3f3f3;
+  border-top: solid 2px #cacaca;
+  padding: 0px 15px;
 }
 </style>

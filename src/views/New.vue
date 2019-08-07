@@ -2,32 +2,33 @@
   <section>
     <h2>Hire from the best Cyber Security candidates</h2>
     <div class="flexbox">
-      <div class="tab">
+      <div class="tab" v-if="step === 0">
         <h4>Step 1</h4>
         <h3>Create Job Ad</h3>
       </div>
-      <div class="tab">
+      <div class="tab" v-if="step === 1">
         <h4>Step 2</h4>
         <h3>Review Job Ad</h3>
       </div>
-      <div class="tab">
+      <div class="tab" v-if="step === 2">
         <h4>Step 3</h4>
-        <h3>Post Job Ad</h3>
+        <h3>Purchase Job Ad</h3>
       </div>
     </div>
     <div>
       <div class="form-container" v-if="step === 0">
-        <p>Step 1</p>
-        <form @submit.prevent>
-          <p>Job Title</p>
-          <input type="text" />
-          <div>
-            <div>
-              <p>Location</p>
+        <form @submit.prevent cl>
+          <div class="flex-full">
+            <p>Job Title</p>
+            <input type="text" />
+          </div>
+          <div class="flex-half">
+            <p>Job Title</p>
+            <p>Location Type</p>
+            <input type="text" />
 
-              <input type="radio" /> Remote
-              <input type="radio" /> Onsite
-            </div>
+            <input type="radio" name="location" /> Remote
+            <input type="radio" name="location" /> Onsite
           </div>
           <div>
             <Editor></Editor>
@@ -73,10 +74,8 @@ export default {
 .flexbox {
   width: 800px;
   margin: 0 auto;
-  border: solid;
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 50px;
+  justify-content: center;
 
   .tab {
     border-bottom: solid #6558f5;
@@ -93,8 +92,63 @@ export default {
 }
 
 .form-container {
-  border: solid;
   width: 800px;
   margin: auto;
+
+  .flex-full {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+
+    p {
+      flex-basis: 100%;
+      text-align: left;
+    }
+  }
+
+  .flex-half {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+
+    p {
+      flex-basis: 50%;
+      text-align: left;
+    }
+
+    input[type="text"] {
+      outline: none;
+      border: none;
+      background: #e9e9e9;
+      padding: 10px;
+      font-size: 1.4rem;
+      width: 50%;
+    }
+
+    input[type="radio"] {
+      margin-right: 10px;
+    }
+  }
+
+  input[type="text"] {
+    outline: none;
+    border: none;
+    background: #e9e9e9;
+    padding: 10px;
+    font-size: 1.4rem;
+    width: 100%;
+  }
+
+  input[type="radio"]:first-of-type {
+    margin-right: 10px;
+  }
+
+  input[type="radio"]:last-of-type {
+    margin: 0 10px 0 35px;
+  }
 }
 </style>
