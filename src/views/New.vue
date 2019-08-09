@@ -23,10 +23,9 @@
             <input type="text" />
           </div>
           <div class="flex-half">
-            <p>Job Title</p>
+            <p>Location</p>
             <p>Location Type</p>
             <input type="text" />
-
             <input type="radio" name="location" /> Remote
             <input type="radio" name="location" /> Onsite
           </div>
