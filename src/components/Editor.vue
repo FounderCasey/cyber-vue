@@ -75,6 +75,7 @@
 
 <script>
 import { Editor, EditorContent, EditorMenuBar } from "tiptap";
+import { EventBus } from "../event-bus.js";
 import {
   Heading,
   OrderedList,
@@ -93,6 +94,7 @@ export default {
   },
   data() {
     return {
+      stuff: "",
       editor: new Editor({
         extensions: [
           new BulletList(),
@@ -103,9 +105,21 @@ export default {
           new Bold(),
           new Italic(),
           new Underline()
-        ]
-      })
+        ],
+        onUpdate: ({ getJSON, getHTML }) => {
+          this.json = getJSON();
+          this.html = getHTML();
+          this.emitGlobalClickEvent();
+        }
+      }),
+      json: "Update content to see changes",
+      html: "Update content to see changes"
     };
+  },
+  methods: {
+    emitGlobalClickEvent() {
+      EventBus.$emit("exportedHTML", this.html);
+    }
   },
   beforeDestroy() {
     this.editor.destroy();

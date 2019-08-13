@@ -20,13 +20,13 @@
         <form @submit.prevent cl>
           <div class="flex-full">
             <p>Job Title</p>
-            <input type="text" />
+            <input type="text" v-model="title" />
           </div>
           <div class="flex-full">
             <div class="flex-row">
               <div class="flex-half">
                 <p>Location</p>
-                <input type="text" />
+                <input type="text" v-model="location" />
               </div>
               <div class="flex-half">
                 <p>Location Type</p>
@@ -47,26 +47,32 @@
         </form>
       </div>
       <div class="form-container" v-if="step === 1">
-        <p>Step 2</p>
+        <p v-html="description"></p>
       </div>
       <div class="form-container" v-if="step === 2">
         <p>Step 3</p>
         <input type="submit" />
       </div>
     </div>
+    <button v-if="step > 0" @click="step--">Back</button>
+    <button v-if="step < 3" @click="step++">Next</button>
   </section>
 </template>
 
 <script>
 import Editor from "../components/Editor";
+import { EventBus } from "../event-bus.js";
 
 export default {
   name: "new",
   data() {
     return {
       step: 0,
+      title: "",
+      location: "",
       remote: false,
-      onsite: false
+      onsite: false,
+      description: this.test()
     };
   },
   methods: {
@@ -75,6 +81,12 @@ export default {
     },
     next: function() {
       this.step++;
+    },
+    test: function() {
+      EventBus.$on("exportedHTML", html => {
+        this.description = html;
+        return `${html}`;
+      });
     },
     toggleRemote: function() {
       if (!this.remote && this.onsite) {
@@ -108,14 +120,15 @@ export default {
 
   .tab {
     border-bottom: solid #6558f5;
-
+    width: 100%;
+    text-align: left;
     h4 {
-      margin-bottom: 0;
-      text-align: left;
+      margin-bottom: 0px;
     }
 
     h3 {
-      margin-top: 5px;
+      margin-top: 0;
+      margin-bottom: 5px;
     }
   }
 }
