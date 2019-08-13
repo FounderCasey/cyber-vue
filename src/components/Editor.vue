@@ -98,7 +98,7 @@ export default {
       editor: new Editor({
         extensions: [
           new BulletList(),
-          new Heading({ levels: [1, 2, 3] }),
+          new Heading({ levels: [1, 3, 5] }),
           new ListItem(),
           new OrderedList(),
           new Link(),
@@ -172,5 +172,6 @@ export default {
   background: #f3f3f3;
   border-top: solid 2px #cacaca;
   padding: 0px 15px;
+  overflow-y: scroll;
 }
 </style>

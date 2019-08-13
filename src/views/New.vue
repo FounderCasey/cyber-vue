@@ -8,13 +8,14 @@
       </div>
       <div class="tab" v-if="step === 1">
         <h4>Step 2</h4>
-        <h3>Review Job Ad</h3>
+        <h3>Company Info</h3>
       </div>
       <div class="tab" v-if="step === 2">
         <h4>Step 3</h4>
         <h3>Purchase Job Ad</h3>
       </div>
     </div>
+    <hr />
     <div>
       <div class="form-container" v-if="step === 0">
         <form @submit.prevent cl>
@@ -42,20 +43,30 @@
             </div>
           </div>
           <div>
+            <p>Job Description</p>
             <Editor></Editor>
+            <hr id="hr-top-margin" />
+            <p>Review Ad</p>
+            <h2>{{title}}</h2>
+            <h3>
+              {{location}} -
+              <span id="onsite-special" v-if="onsite">Onsite</span>
+              <span id="remote-special" v-if="remote">Remote</span>
+            </h3>
+            <p class="review" v-html="description"></p>
           </div>
         </form>
       </div>
       <div class="form-container" v-if="step === 1">
-        <p v-html="description"></p>
+        <p class="review" v-html="description"></p>
       </div>
       <div class="form-container" v-if="step === 2">
         <p>Step 3</p>
         <input type="submit" />
       </div>
     </div>
-    <button v-if="step > 0" @click="step--">Back</button>
-    <button v-if="step < 3" @click="step++">Next</button>
+    <button class="post-btn new-btn" v-if="step > 0" @click="step--">Back</button>
+    <button class="post-btn new-btn" v-if="step < 3" @click="step++">Next</button>
   </section>
 </template>
 
@@ -112,6 +123,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+hr {
+  width: 800px;
+  padding: 2px 0;
+  background: #6558f5;
+  outline: none;
+  border: none;
+}
+
+#hr-top-margin {
+  margin-top: 30px;
+}
+
 .flexbox {
   width: 800px;
   margin: 0 auto;
@@ -119,7 +142,6 @@ export default {
   justify-content: center;
 
   .tab {
-    border-bottom: solid #6558f5;
     width: 100%;
     text-align: left;
     h4 {
@@ -215,5 +237,25 @@ export default {
     font-size: 1.4rem;
     width: 100%;
   }
+}
+
+div {
+  text-align: left;
+}
+
+.review {
+  text-align: left;
+}
+
+.new-btn {
+  margin: 10px;
+}
+
+#remote-special {
+  color: #6558f5;
+}
+
+#onsite-special {
+  color: #f55858;
 }
 </style>
