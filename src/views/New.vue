@@ -22,12 +22,24 @@
             <p>Job Title</p>
             <input type="text" />
           </div>
-          <div class="flex-half">
-            <p>Location</p>
-            <p>Location Type</p>
-            <input type="text" />
-            <input type="radio" name="location" /> Remote
-            <input type="radio" name="location" /> Onsite
+          <div class="flex-full">
+            <div class="flex-row">
+              <div class="flex-half">
+                <p>Location</p>
+                <input type="text" />
+              </div>
+              <div class="flex-half">
+                <p>Location Type</p>
+                <button
+                  v-bind:class="[remote ? 'selected' : 'not-selected']"
+                  v-on:click="toggleRemote"
+                >Remote</button>
+                <button
+                  v-bind:class="[onsite ? 'selected' : 'not-selected']"
+                  v-on:click="toggleOnsite"
+                >Onsite</button>
+              </div>
+            </div>
           </div>
           <div>
             <Editor></Editor>
@@ -52,7 +64,9 @@ export default {
   name: "new",
   data() {
     return {
-      step: 0
+      step: 0,
+      remote: false,
+      onsite: false
     };
   },
   methods: {
@@ -61,6 +75,22 @@ export default {
     },
     next: function() {
       this.step++;
+    },
+    toggleRemote: function() {
+      if (!this.remote && this.onsite) {
+        this.onsite = !this.onsite;
+        this.remote = !this.remote;
+      } else {
+        this.remote = !this.remote;
+      }
+    },
+    toggleOnsite: function() {
+      if (!this.onsite && this.remote) {
+        this.remote = !this.remote;
+        this.onsite = !this.onsite;
+      } else {
+        this.onsite = !this.onsite;
+      }
     }
   },
   components: {
@@ -107,15 +137,20 @@ export default {
     }
   }
 
+  .flex-row {
+    display: flex;
+    width: 100%;
+  }
+
   .flex-half {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 50%;
     flex-wrap: wrap;
 
     p {
-      flex-basis: 50%;
+      flex-basis: 100%;
       text-align: left;
     }
 
@@ -125,11 +160,37 @@ export default {
       background: #e9e9e9;
       padding: 10px;
       font-size: 1.4rem;
-      width: 50%;
+      width: 90%;
     }
 
-    input[type="radio"] {
-      margin-right: 10px;
+    .selected {
+      border: solid 3px #6558f5;
+      background: #6558f5;
+      color: #fff;
+      padding: 11.5px 25px;
+      width: 49%;
+      font-size: 1rem;
+      font-weight: 300;
+      outline: none;
+      transition: 300ms;
+    }
+
+    .not-selected {
+      border: solid 3px #6558f5;
+      padding: 11.5px 25px;
+      width: 49%;
+      font-size: 1rem;
+      font-weight: 300;
+      outline: none;
+      transition: 300ms;
+    }
+
+    .selected:hover,
+    .not-selected:hover {
+      border: solid 3px #6558f5;
+      background: #6558f5;
+      color: #fff;
+      cursor: pointer;
     }
   }
 
@@ -140,14 +201,6 @@ export default {
     padding: 10px;
     font-size: 1.4rem;
     width: 100%;
-  }
-
-  input[type="radio"]:first-of-type {
-    margin-right: 10px;
-  }
-
-  input[type="radio"]:last-of-type {
-    margin: 0 10px 0 35px;
   }
 }
 </style>
