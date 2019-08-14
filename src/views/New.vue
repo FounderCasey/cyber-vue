@@ -31,28 +31,72 @@
               </div>
               <div class="flex-half">
                 <p>Location Type</p>
-                <button
-                  v-bind:class="[remote ? 'selected' : 'not-selected']"
-                  v-on:click="toggleRemote"
-                >Remote</button>
-                <button
-                  v-bind:class="[onsite ? 'selected' : 'not-selected']"
-                  v-on:click="toggleOnsite"
-                >Onsite</button>
+                <input
+                  type="radio"
+                  v-model="locationType"
+                  name="locationType"
+                  id="remote"
+                  value="Remote"
+                />
+                <label for="remote">Remote</label>
+                <input
+                  type="radio"
+                  v-model="locationType"
+                  name="locationType"
+                  id="onsite"
+                  value="Onsite"
+                />
+                <label for="onsite">Onsite</label>
               </div>
+            </div>
+            <div class="position-type">
+              <p>Position Type</p>
+              <input
+                type="radio"
+                v-model="positionType"
+                name="position-type"
+                id="fulltime"
+                value="Full-time"
+              />
+              <label for="fulltime">Fulltime</label>
+              <input
+                type="radio"
+                v-model="positionType"
+                name="position-type"
+                id="parttime"
+                value="Part-time"
+              />
+              <label for="parttime">Part-time</label>
+              <input
+                type="radio"
+                v-model="positionType"
+                name="position-type"
+                id="contract"
+                value="Contract"
+              />
+              <label for="contract">Contract</label>
+              <input
+                type="radio"
+                v-model="positionType"
+                name="position-type"
+                id="intern"
+                value="Internship"
+              />
+              <label for="intern">Internship</label>
             </div>
           </div>
           <div>
             <p>Job Description</p>
             <Editor></Editor>
             <hr id="hr-top-margin" />
-            <p>Review Ad</p>
+            <h3>Review Ad</h3>
             <h2>{{title}}</h2>
-            <h3>
+            <h3 v-if="location.length > 1 || remote || onsite">
               {{location}} -
               <span id="onsite-special" v-if="onsite">Onsite</span>
               <span id="remote-special" v-if="remote">Remote</span>
             </h3>
+            <h3>{{positionType}}</h3>
             <p class="review" v-html="description"></p>
           </div>
         </form>
@@ -81,9 +125,9 @@ export default {
       step: 0,
       title: "",
       location: "",
-      remote: false,
-      onsite: false,
-      description: this.test()
+      locationType: "",
+      positionType: "",
+      description: this.exportedHTML()
     };
   },
   methods: {
@@ -93,7 +137,7 @@ export default {
     next: function() {
       this.step++;
     },
-    test: function() {
+    exportedHTML: function() {
       EventBus.$on("exportedHTML", html => {
         this.description = html;
         return `${html}`;
@@ -184,6 +228,10 @@ hr {
     width: 50%;
     flex-wrap: wrap;
 
+    label {
+      width: 32%;
+    }
+
     p {
       flex-basis: 100%;
       text-align: left;
@@ -197,36 +245,6 @@ hr {
       font-size: 1.4rem;
       width: 90%;
     }
-
-    .selected {
-      border: solid 3px #6558f5;
-      background: #6558f5;
-      color: #fff;
-      padding: 11.5px 25px;
-      width: 49%;
-      font-size: 1rem;
-      font-weight: 300;
-      outline: none;
-      transition: 300ms;
-    }
-
-    .not-selected {
-      border: solid 3px #6558f5;
-      padding: 11.5px 25px;
-      width: 49%;
-      font-size: 1rem;
-      font-weight: 300;
-      outline: none;
-      transition: 300ms;
-    }
-
-    .selected:hover,
-    .not-selected:hover {
-      border: solid 3px #6558f5;
-      background: #6558f5;
-      color: #fff;
-      cursor: pointer;
-    }
   }
 
   input[type="text"] {
@@ -237,6 +255,45 @@ hr {
     font-size: 1.4rem;
     width: 100%;
   }
+}
+
+.position-type {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+
+  p {
+    flex-basis: 100%;
+    text-align: left;
+  }
+}
+
+input[type="radio"] {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+label {
+  text-align: center;
+  cursor: pointer;
+  padding: 11.5px 25px;
+  border: solid 3px #6558f5;
+  width: 15%;
+  font-size: 1rem;
+  font-weight: 300;
+  transition: 300ms;
+
+  &:hover {
+    background-color: #6558f5;
+    color: #fff;
+  }
+}
+
+input[type="radio"]:checked + label {
+  background-color: #6558f5;
+  color: #fff;
 }
 
 div {
