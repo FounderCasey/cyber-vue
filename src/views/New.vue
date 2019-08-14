@@ -278,7 +278,7 @@ input[type="radio"] {
 label {
   text-align: center;
   cursor: pointer;
-  padding: 11.5px 25px;
+  padding: 10px 25px;
   border: solid 3px #6558f5;
   width: 15%;
   font-size: 1rem;
