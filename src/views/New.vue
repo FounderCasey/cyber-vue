@@ -91,10 +91,11 @@
             <hr id="hr-top-margin" />
             <h3>Review Ad</h3>
             <h2>{{title}}</h2>
-            <h3 v-if="location.length > 1 || remote || onsite">
-              {{location}} -
-              <span id="onsite-special" v-if="onsite">Onsite</span>
-              <span id="remote-special" v-if="remote">Remote</span>
+            <h3>
+              {{location}}
+              <span v-if="location != '' && locationType != ''">-&#160;</span>
+              <span id="onsite-special" v-if="locationType == 'Onsite'">{{locationType}}</span>
+              <span id="remote-special" v-if="locationType == 'Remote'">{{locationType}}</span>
             </h3>
             <h3>{{positionType}}</h3>
             <p class="review" v-html="description"></p>
