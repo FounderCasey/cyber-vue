@@ -18,7 +18,7 @@
     <hr />
     <div>
       <div class="form-container" v-if="step === 0">
-        <form @submit.prevent cl>
+        <form @submit.prevent>
           <div class="flex-full">
             <p>Job Title</p>
             <input type="text" v-model="title" />
@@ -107,7 +107,7 @@
       </div>
       <div class="form-container" v-if="step === 2">
         <p>Step 3</p>
-        <input type="submit" />
+        <input type="submit" @click="onSubmit" />
       </div>
     </div>
     <button class="post-btn new-btn" v-if="step > 0" @click="step--">Back</button>
@@ -118,6 +118,8 @@
 <script>
 import Editor from "../components/Editor";
 import { EventBus } from "../event-bus.js";
+import firebase from "firebase";
+import { db } from "../main";
 
 export default {
   name: "new",
@@ -128,7 +130,10 @@ export default {
       location: "",
       locationType: "",
       positionType: "",
-      description: this.exportedHTML()
+      description: this.exportedHTML(),
+      company: "",
+      companyUrl: "",
+      companyImage: ""
     };
   },
   methods: {
@@ -159,6 +164,22 @@ export default {
       } else {
         this.onsite = !this.onsite;
       }
+    },
+    onSubmit: function() {
+      db.collection("postings")
+        .add({
+          title: this.title,
+          location: this.location,
+          locationType: this.locationType,
+          positionType: this.positionType,
+          description: this.description,
+          company: this.company,
+          companyUrl: this.companyUrl,
+          companyImage: this.companyImage
+        })
+        .then(() => {
+          alert("added");
+        });
     }
   },
   components: {
