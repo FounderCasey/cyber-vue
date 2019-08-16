@@ -69,6 +69,7 @@ export default {
     }
   },
   components: {
+    // eslint-disable-next-line
     Clipboard,
     Notifications
   }

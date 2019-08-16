@@ -7,10 +7,15 @@ import {
 import firebase from 'firebase'
 import Clipboard from "v-clipboard";
 import Notifications from 'vue-notification'
+import VueMoment from 'vue-moment';
+import moment from 'moment';
 
 Vue.use(firestorePlugin)
 Vue.use(Clipboard)
 Vue.use(Notifications)
+Vue.use(VueMoment, {
+  moment,
+});
 
 Vue.config.productionTip = false
 

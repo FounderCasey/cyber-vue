@@ -17,97 +17,98 @@
     </div>
     <hr />
     <div>
-      <div class="form-container" v-if="step === 0">
+      <div class="form-container">
         <form @submit.prevent>
-          <div class="flex-full">
-            <p>Job Title</p>
-            <input type="text" v-model="title" />
-          </div>
-          <div class="flex-full">
-            <div class="flex-row">
-              <div class="flex-half">
-                <p>Location</p>
-                <input type="text" v-model="location" />
+          <div class="form-container" v-if="step === 0">
+            <div class="flex-full">
+              <p>Job Title</p>
+              <input type="text" v-model="title" />
+            </div>
+            <div class="flex-full">
+              <div class="flex-row">
+                <div class="flex-half">
+                  <p>Location</p>
+                  <input type="text" v-model="location" />
+                </div>
+                <div class="flex-half">
+                  <p>Location Type</p>
+                  <input
+                    type="radio"
+                    v-model="locationType"
+                    name="locationType"
+                    id="remote"
+                    value="Remote"
+                  />
+                  <label for="remote">Remote</label>
+                  <input
+                    type="radio"
+                    v-model="locationType"
+                    name="locationType"
+                    id="onsite"
+                    value="Onsite"
+                  />
+                  <label for="onsite">Onsite</label>
+                </div>
               </div>
-              <div class="flex-half">
-                <p>Location Type</p>
+              <div class="position-type">
+                <p>Position Type</p>
                 <input
                   type="radio"
-                  v-model="locationType"
-                  name="locationType"
-                  id="remote"
-                  value="Remote"
+                  v-model="positionType"
+                  name="position-type"
+                  id="fulltime"
+                  value="Full-time"
                 />
-                <label for="remote">Remote</label>
+                <label for="fulltime">Fulltime</label>
                 <input
                   type="radio"
-                  v-model="locationType"
-                  name="locationType"
-                  id="onsite"
-                  value="Onsite"
+                  v-model="positionType"
+                  name="position-type"
+                  id="parttime"
+                  value="Part-time"
                 />
-                <label for="onsite">Onsite</label>
+                <label for="parttime">Part-time</label>
+                <input
+                  type="radio"
+                  v-model="positionType"
+                  name="position-type"
+                  id="contract"
+                  value="Contract"
+                />
+                <label for="contract">Contract</label>
+                <input
+                  type="radio"
+                  v-model="positionType"
+                  name="position-type"
+                  id="intern"
+                  value="Internship"
+                />
+                <label for="intern">Internship</label>
               </div>
             </div>
-            <div class="position-type">
-              <p>Position Type</p>
-              <input
-                type="radio"
-                v-model="positionType"
-                name="position-type"
-                id="fulltime"
-                value="Full-time"
-              />
-              <label for="fulltime">Fulltime</label>
-              <input
-                type="radio"
-                v-model="positionType"
-                name="position-type"
-                id="parttime"
-                value="Part-time"
-              />
-              <label for="parttime">Part-time</label>
-              <input
-                type="radio"
-                v-model="positionType"
-                name="position-type"
-                id="contract"
-                value="Contract"
-              />
-              <label for="contract">Contract</label>
-              <input
-                type="radio"
-                v-model="positionType"
-                name="position-type"
-                id="intern"
-                value="Internship"
-              />
-              <label for="intern">Internship</label>
+            <div>
+              <p>Job Description</p>
+              <Editor></Editor>
+              <hr id="hr-top-margin" />
+              <h3>Review Ad</h3>
+              <h2>{{title}}</h2>
+              <h3>
+                {{location}}
+                <span v-if="location != '' && locationType != ''">-&#160;</span>
+                <span id="onsite-special" v-if="locationType == 'Onsite'">{{locationType}}</span>
+                <span id="remote-special" v-if="locationType == 'Remote'">{{locationType}}</span>
+              </h3>
+              <h3>{{positionType}}</h3>
+              <p class="review" v-html="description"></p>
             </div>
           </div>
-          <div>
-            <p>Job Description</p>
-            <Editor></Editor>
-            <hr id="hr-top-margin" />
-            <h3>Review Ad</h3>
-            <h2>{{title}}</h2>
-            <h3>
-              {{location}}
-              <span v-if="location != '' && locationType != ''">-&#160;</span>
-              <span id="onsite-special" v-if="locationType == 'Onsite'">{{locationType}}</span>
-              <span id="remote-special" v-if="locationType == 'Remote'">{{locationType}}</span>
-            </h3>
-            <h3>{{positionType}}</h3>
+          <div class="form-container" v-if="step === 1">
             <p class="review" v-html="description"></p>
           </div>
+          <div class="form-container" v-if="step === 2">
+            <p>Step 3</p>
+          </div>
         </form>
-      </div>
-      <div class="form-container" v-if="step === 1">
-        <p class="review" v-html="description"></p>
-      </div>
-      <div class="form-container" v-if="step === 2">
-        <p>Step 3</p>
-        <input type="submit" @click="onSubmit" />
       </div>
     </div>
     <button class="post-btn new-btn" v-if="step > 0" @click="step--">Back</button>
@@ -118,8 +119,10 @@
 <script>
 import Editor from "../components/Editor";
 import { EventBus } from "../event-bus.js";
+// eslint-disable-next-line
 import firebase from "firebase";
 import { db } from "../main";
+import VueMoment from "vue-moment";
 
 export default {
   name: "new",
@@ -133,7 +136,10 @@ export default {
       description: this.exportedHTML(),
       company: "",
       companyUrl: "",
-      companyImage: ""
+      companyImage: "",
+      companyDescription: "",
+      date: this.$moment().format("MMMM, Do"),
+      featured: false
     };
   },
   methods: {
@@ -148,22 +154,6 @@ export default {
         this.description = html;
         return `${html}`;
       });
-    },
-    toggleRemote: function() {
-      if (!this.remote && this.onsite) {
-        this.onsite = !this.onsite;
-        this.remote = !this.remote;
-      } else {
-        this.remote = !this.remote;
-      }
-    },
-    toggleOnsite: function() {
-      if (!this.onsite && this.remote) {
-        this.remote = !this.remote;
-        this.onsite = !this.onsite;
-      } else {
-        this.onsite = !this.onsite;
-      }
     },
     onSubmit: function() {
       db.collection("postings")
@@ -183,7 +173,8 @@ export default {
     }
   },
   components: {
-    Editor
+    Editor,
+    VueMoment
   }
 };
 </script>

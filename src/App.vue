@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <notifications group="notifs" position="bottom right" />
+    <notifications group="notifs" position="bottom right" width="200px" />
     <div id="nav">
       <ul>
         <li>
