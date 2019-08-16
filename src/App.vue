@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <notifications group="notifs" position="bottom right" />
     <div id="nav">
       <ul>
         <li>
@@ -65,5 +66,16 @@
 
 .post-btn:hover {
   cursor: pointer;
+}
+
+.vue-notification {
+  padding: 10px;
+  margin: 0 5px 15px !important;
+
+  font-size: 14px !important;
+
+  color: #ffffff;
+  background: #6558f5 !important;
+  border-left: 5px solid #5145d8 !important;
 }
 </style>

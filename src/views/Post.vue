@@ -17,6 +17,7 @@
         <h4>
           Doesn't seem like a fit?
           <span @click="copy">Share this job</span>!
+          <notifications group="foo" />
         </h4>
       </div>
     </div>
@@ -26,6 +27,7 @@
 <script>
 import firebase from "firebase";
 import Clipboard from "v-clipboard";
+import Notifications from "vue-notification";
 
 export default {
   name: "post",
@@ -57,11 +59,18 @@ export default {
       this.step++;
     },
     copy: function() {
-      this.$clipboard("Baaaaaaaaar");
+      // TODO: Change link
+      let link = `https://cyber-board.firebaseapp.com/${this.key}`;
+      this.$clipboard(link);
+      this.$notify({
+        group: "notifs",
+        title: "Copied to clipboad!"
+      });
     }
   },
   components: {
-    Clipboard
+    Clipboard,
+    Notifications
   }
 };
 </script>
@@ -104,6 +113,10 @@ export default {
 
 .post-body {
   text-align: left;
+}
+
+span {
+  color: #6558f5;
 }
 
 span:hover {

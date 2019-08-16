@@ -6,9 +6,11 @@ import {
 } from 'vuefire'
 import firebase from 'firebase'
 import Clipboard from "v-clipboard";
+import Notifications from 'vue-notification'
 
 Vue.use(firestorePlugin)
 Vue.use(Clipboard)
+Vue.use(Notifications)
 
 Vue.config.productionTip = false
 
