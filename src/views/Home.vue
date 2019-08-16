@@ -8,11 +8,30 @@
       </div>
     </header>
     <section class="flexbox column posts">
+      <article class="flexbox posting" v-for="(item, index) in featured" :key="index">
+        <div class="flexbox posting" @click="details(item)">
+          <div class="flex-item-posting">
+            <div class="image-div">
+              <img class="image" v-if="item.companyImage" :src="`${item.companyImage}`" alt />
+            </div>
+            <div class="flex-item-posting">
+              <h3 class="flex-b-100">{{ item.title }}</h3>
+              <h4>{{ item.company }}</h4>
+              <p id="dash">-</p>
+              <p>{{ item.location }}</p>
+            </div>
+          </div>
+          <div class="flex-item-posting flex-end">
+            <p class="featured" v-if="item.featured">Featured</p>
+            <p v-else>{{ item.date }}</p>
+          </div>
+        </div>
+      </article>
       <article class="flexbox posting" v-for="(item, index) in postings" :key="index">
         <div class="flexbox posting" @click="details(item)">
           <div class="flex-item-posting">
             <div class="image-div">
-              <img class="image" v-if="item.image_url" :src="`${item.image_url}`" alt />
+              <img class="image" v-if="item.companyImage" :src="`${item.companyImage}`" alt />
             </div>
             <div class="flex-item-posting">
               <h3 class="flex-b-100">{{ item.title }}</h3>
@@ -39,22 +58,42 @@ export default {
   data() {
     return {
       postings: [],
+      featured: [],
       ref: firebase.firestore().collection("postings")
     };
   },
   created() {
     this.ref.onSnapshot(querySnapshot => {
       this.postings = [];
+      this.featured;
       querySnapshot.forEach(doc => {
-        this.postings.push({
-          key: doc.id,
-          title: doc.data().title,
-          company: doc.data().company,
-          date: doc.data().date,
-          image_url: doc.data().image_url,
-          location: doc.data().location,
-          featured: doc.data().featured
-        });
+        if (doc.data().featured) {
+          this.featured.push({
+            key: doc.id,
+            title: doc.data().title,
+            positionType: doc.data().positionType,
+            company: doc.data().company,
+            date: doc.data().date,
+            companyImage: doc.data().companyImage,
+            companyUrl: doc.data().companyUrl,
+            location: doc.data().location,
+            locationType: doc.data().locationType,
+            featured: doc.data().featured
+          });
+        } else {
+          this.postings.push({
+            key: doc.id,
+            title: doc.data().title,
+            positionType: doc.data().positionType,
+            company: doc.data().company,
+            date: doc.data().date,
+            companyImage: doc.data().companyImage,
+            companyUrl: doc.data().companyUrl,
+            location: doc.data().location,
+            locationType: doc.data().locationType,
+            featured: doc.data().featured
+          });
+        }
       });
     });
   },
