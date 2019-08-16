@@ -5,8 +5,10 @@ import {
   firestorePlugin
 } from 'vuefire'
 import firebase from 'firebase'
+import Clipboard from "v-clipboard";
 
 Vue.use(firestorePlugin)
+Vue.use(Clipboard)
 
 Vue.config.productionTip = false
 

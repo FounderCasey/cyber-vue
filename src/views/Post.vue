@@ -4,7 +4,8 @@
       <div class="post-header">
         <p id="date-p">{{ post.date }}</p>
         <h2>{{ post.title }}</h2>
-        <h4>{{ post.company }} - {{ post.location }}</h4>
+        <h4>{{ post.company }}</h4>
+        <h4>{{ post.location }} - {{ post.locationType }}</h4>
         <br />
         <button class="post-btn">Apply Now</button>
       </div>
@@ -13,7 +14,10 @@
       </div>
       <div class="post-footer">
         <button class="post-btn">Apply Now</button>
-        <h4>Doesn't seem like a fit? Share this job!</h4>
+        <h4>
+          Doesn't seem like a fit?
+          <span @click="copy">Share this job</span>!
+        </h4>
       </div>
     </div>
   </section>
@@ -21,6 +25,7 @@
 
 <script>
 import firebase from "firebase";
+import Clipboard from "v-clipboard";
 
 export default {
   name: "post",
@@ -50,7 +55,13 @@ export default {
     },
     next: function() {
       this.step++;
+    },
+    copy: function() {
+      this.$clipboard("Baaaaaaaaar");
     }
+  },
+  components: {
+    Clipboard
   }
 };
 </script>
@@ -93,5 +104,9 @@ export default {
 
 .post-body {
   text-align: left;
+}
+
+span:hover {
+  cursor: pointer;
 }
 </style>
