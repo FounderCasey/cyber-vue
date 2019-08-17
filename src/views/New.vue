@@ -4,11 +4,11 @@
     <div class="flexbox">
       <div class="tab" v-if="step === 0">
         <h4>Step 1</h4>
-        <h3>Create Job Ad</h3>
+        <h3>Company Info</h3>
       </div>
       <div class="tab" v-if="step === 1">
         <h4>Step 2</h4>
-        <h3>Company Info</h3>
+        <h3>Position Info</h3>
       </div>
       <div class="tab" v-if="step === 2">
         <h4>Step 3</h4>
@@ -20,6 +20,41 @@
       <div class="form-container">
         <form @submit.prevent>
           <div class="form-container" v-if="step === 0">
+            <div class="flex-full">
+              <p>Company</p>
+              <input type="text" v-model="company" />
+            </div>
+            <div class="flex-full">
+              <div class="flex-row">
+                <div class="flex-half">
+                  <p>Company Website</p>
+                  <input type="text" v-model="companyUrl" />
+                </div>
+                <div class="flex-half">
+                  <p>Company Logo URL</p>
+                  <input type="text" id="input-greater" v-model="companyImage" />
+                </div>
+              </div>
+            </div>
+            <div>
+              <p>Company Description</p>
+              <textarea v-model="companyDescription"></textarea>
+              <hr id="hr-top-margin" />
+            </div>
+            <div class="company-card">
+              <h3>Review Company Card</h3>
+              <h2>{{company}}</h2>
+              <h3>
+                {{companyUrl}}
+                <span v-if="location != '' && locationType != ''">-&#160;</span>
+                <span id="onsite-special" v-if="locationType == 'Onsite'">{{locationType}}</span>
+                <span id="remote-special" v-if="locationType == 'Remote'">{{locationType}}</span>
+              </h3>
+              <h3>{{positionType}}</h3>
+              <p class="review">{{companyDescription}}</p>
+            </div>
+          </div>
+          <div class="form-container" v-if="step === 1">
             <div class="flex-full">
               <p>Job Title</p>
               <input type="text" v-model="title" />
@@ -102,17 +137,15 @@
               <p class="review" v-html="description"></p>
             </div>
           </div>
-          <div class="form-container" v-if="step === 1">
-            <p class="review" v-html="description"></p>
-          </div>
           <div class="form-container" v-if="step === 2">
             <p>Step 3</p>
+            <input type="submit" />
           </div>
         </form>
       </div>
     </div>
     <button class="post-btn new-btn" v-if="step > 0" @click="step--">Back</button>
-    <button class="post-btn new-btn" v-if="step < 3" @click="step++">Next</button>
+    <button class="post-btn new-btn" v-if="step < 2" @click="step++">Next</button>
   </section>
 </template>
 
@@ -174,6 +207,7 @@ export default {
   },
   components: {
     Editor,
+    // eslint-disable-next-line
     VueMoment
   }
 };
@@ -258,6 +292,10 @@ hr {
       font-size: 1.4rem;
       width: 90%;
     }
+
+    #input-greater {
+      width: 100%;
+    }
   }
 
   input[type="text"] {
@@ -327,5 +365,23 @@ div {
 
 #onsite-special {
   color: #f55858;
+}
+
+textarea {
+  height: 200px;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  text-align: left;
+  outline: none;
+  background: #f3f3f3;
+  padding: 15px 15px;
+  overflow-y: scroll;
+  border: none;
+  resize: none;
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: #2c3e50;
 }
 </style>
