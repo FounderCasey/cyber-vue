@@ -8,7 +8,7 @@
       </div>
     </header>
     <section class="flexbox column posts">
-      <article class="flexbox posting" v-for="(item, index) in featured" :key="index">
+      <article class="flexbox posting" v-for="(item, index) in featured" :key="`A-${index}`">
         <div class="flexbox posting" @click="details(item)">
           <div class="flex-item-posting">
             <div class="image-div">
@@ -27,7 +27,7 @@
           </div>
         </div>
       </article>
-      <article class="flexbox posting" v-for="(item, index) in postings" :key="index">
+      <article class="flexbox posting" v-for="(item, index) in postings" :key="`B-${index}`">
         <div class="flexbox posting" @click="details(item)">
           <div class="flex-item-posting">
             <div class="image-div">
