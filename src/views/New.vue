@@ -139,7 +139,7 @@
           </div>
           <div class="form-container" v-if="step === 2">
             <p>Step 3</p>
-            <input type="submit" />
+            <input type="submit" @click="onSubmit" />
           </div>
         </form>
       </div>
@@ -161,6 +161,7 @@ export default {
   name: "new",
   data() {
     return {
+      globalCount: [],
       step: 0,
       title: "",
       location: "",
@@ -198,12 +199,27 @@ export default {
           description: this.description,
           company: this.company,
           companyUrl: this.companyUrl,
-          companyImage: this.companyImage
+          companyImage: this.companyImage,
+          companyDescription: this.companyDescription,
+          date: this.date,
+          featured: this.featured,
+          count: this.globalCount.count
         })
         .then(() => {
           alert("added");
+          let updatedCount = this.globalCount.count + 1;
+          db.collection("global")
+            .doc("global_count")
+            .set({
+              count: updatedCount
+            });
         });
     }
+  },
+  firestore() {
+    return {
+      globalCount: db.collection("global").doc("global_count")
+    };
   },
   components: {
     Editor,

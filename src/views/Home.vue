@@ -8,17 +8,25 @@
       </div>
     </header>
     <section class="flexbox column posts">
-      <article class="flexbox posting" v-for="(item, index) in featured" :key="`A-${index}`">
+      <article
+        class="flexbox posting featured-article"
+        v-for="(item, index) in featured"
+        :key="`A-${index}`"
+      >
         <div class="flexbox posting" @click="details(item)">
           <div class="flex-item-posting">
             <div class="image-div">
               <img class="image" v-if="item.companyImage" :src="`${item.companyImage}`" alt />
             </div>
-            <div class="flex-item-posting">
+            <div class="flex-item-posting item-column">
               <h3 class="flex-b-100">{{ item.title }}</h3>
-              <h4>{{ item.company }}</h4>
-              <p id="dash">-</p>
-              <p>{{ item.location }}</p>
+              <div class="flexbox">
+                <h4>{{ item.company }}</h4>
+                <p id="dash">-</p>
+                <p>{{ item.location }}</p>
+                <p id="dash">-</p>
+                <p>{{ item.locationType }}</p>
+              </div>
             </div>
           </div>
           <div class="flex-item-posting flex-end">
@@ -33,11 +41,15 @@
             <div class="image-div">
               <img class="image" v-if="item.companyImage" :src="`${item.companyImage}`" alt />
             </div>
-            <div class="flex-item-posting">
+            <div class="flex-item-posting item-column">
               <h3 class="flex-b-100">{{ item.title }}</h3>
-              <h4>{{ item.company }}</h4>
-              <p id="dash">-</p>
-              <p>{{ item.location }}</p>
+              <div class="flexbox">
+                <h4>{{ item.company }}</h4>
+                <p id="dash">-</p>
+                <p>{{ item.location }}</p>
+                <p id="dash">-</p>
+                <p>{{ item.locationType }}</p>
+              </div>
             </div>
           </div>
           <div class="flex-item-posting flex-end">
@@ -76,6 +88,7 @@ export default {
             date: doc.data().date,
             companyImage: doc.data().companyImage,
             companyUrl: doc.data().companyUrl,
+            companyDescription: doc.data().companyDescription,
             location: doc.data().location,
             locationType: doc.data().locationType,
             featured: doc.data().featured
@@ -89,6 +102,7 @@ export default {
             date: doc.data().date,
             companyImage: doc.data().companyImage,
             companyUrl: doc.data().companyUrl,
+            companyDescription: doc.data().companyDescription,
             location: doc.data().location,
             locationType: doc.data().locationType,
             featured: doc.data().featured
@@ -129,18 +143,22 @@ header {
 }
 
 .column {
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
 }
 
 article {
-  background: #c7c3fa;
+  background: #e0dfeb;
   margin: 10px;
+}
+
+.featured-article {
+  background: #c7c3fa;
 }
 
 .featured {
   background: #fced68;
-  padding: 5px;
+  padding: 5px 10px;
 }
 
 .posting:hover {
@@ -148,6 +166,7 @@ article {
 }
 
 .posting {
+  display: flex;
   justify-content: space-between;
   align-items: center;
   width: 800px;
@@ -157,7 +176,6 @@ article {
     flex-wrap: wrap;
     justify-content: flex-start;
     align-content: center;
-
     h3 {
       text-align: left;
     }
@@ -172,7 +190,7 @@ article {
     }
 
     .flex-b-100 {
-      flex: 1 0 100%;
+      flex-grow: 1;
       margin-bottom: 0;
     }
 
@@ -180,21 +198,29 @@ article {
       align-self: center;
       margin: 0 25px;
       display: flex;
+      flex-grow: 0;
+      flex-shrink: 0;
       .image {
         width: 50px;
         height: 50px;
         background-color: #9e98f0;
         align-self: center;
-        border: solid;
+        border: solid 2px;
         border-radius: 100%;
       }
+    }
+
+    .item-column {
+      align-items: flex-start;
+      flex-direction: column;
     }
   }
 
   .flex-end {
     justify-content: flex-end;
     align-content: center;
-
+    flex-grow: 0;
+    flex-shrink: 0;
     margin-right: 25px;
 
     p {

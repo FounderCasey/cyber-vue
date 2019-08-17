@@ -17,7 +17,6 @@
         <h4>
           Doesn't seem like a fit?
           <span @click="copy">Share this job</span>!
-          <notifications group="foo" />
         </h4>
       </div>
     </div>
@@ -26,8 +25,6 @@
 
 <script>
 import firebase from "firebase";
-import Clipboard from "v-clipboard";
-import Notifications from "vue-notification";
 
 export default {
   name: "post",
@@ -68,11 +65,7 @@ export default {
       });
     }
   },
-  components: {
-    // eslint-disable-next-line
-    Clipboard,
-    Notifications
-  }
+  components: {}
 };
 </script>
 
