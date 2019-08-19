@@ -41,17 +41,19 @@
               <textarea v-model="companyDescription"></textarea>
               <hr id="hr-top-margin" />
             </div>
-            <div class="company-card">
+            <div>
               <h3>Review Company Card</h3>
-              <h2>{{company}}</h2>
-              <h3>
-                {{companyUrl}}
-                <span v-if="location != '' && locationType != ''">-&#160;</span>
-                <span id="onsite-special" v-if="locationType == 'Onsite'">{{locationType}}</span>
-                <span id="remote-special" v-if="locationType == 'Remote'">{{locationType}}</span>
-              </h3>
-              <h3>{{positionType}}</h3>
-              <p class="review">{{companyDescription}}</p>
+              <div class="company-card">
+                <h2>{{company}}</h2>
+                <h3>
+                  {{companyUrl}}
+                  <span v-if="location != '' && locationType != ''">-&#160;</span>
+                  <span id="onsite-special" v-if="locationType == 'Onsite'">{{locationType}}</span>
+                  <span id="remote-special" v-if="locationType == 'Remote'">{{locationType}}</span>
+                </h3>
+                <h3>{{positionType}}</h3>
+                <p class="review">{{companyDescription}}</p>
+              </div>
             </div>
           </div>
           <div class="form-container" v-if="step === 1">
@@ -399,5 +401,9 @@ textarea {
   font-size: 1.2rem;
   font-weight: 300;
   color: #2c3e50;
+}
+
+.company-card {
+  background: #c7c3fa;
 }
 </style>
