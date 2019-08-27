@@ -53,7 +53,7 @@ export default {
       post: {}
     };
   },
-  beforeCreate() {
+  created() {
     const ref = firebase
       .firestore()
       .collection("postings")
