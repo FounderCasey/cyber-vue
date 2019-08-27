@@ -71,7 +71,10 @@ export default {
     return {
       postings: [],
       featured: [],
-      ref: firebase.firestore().collection("postings")
+      ref: firebase
+        .firestore()
+        .collection("postings")
+        .orderBy("count", "desc")
     };
   },
   created() {

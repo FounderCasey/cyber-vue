@@ -3,9 +3,9 @@
     <div class="container" v-if="post.title != null">
       <div class="post-header">
         <p id="date-p">{{ post.date }}</p>
-        <h2>{{ post.title }}</h2>
-        <h4>{{ post.company }}</h4>
-        <h4>{{ post.location }} - {{ post.locationType }}</h4>
+        <h2 class="margin-med">{{ post.title }}</h2>
+        <h4 class="margin-med">{{ post.company }}</h4>
+        <h4 class="margin-med">{{ post.location }} - {{ post.locationType }}</h4>
         <br />
         <button class="post-btn">Apply Now</button>
       </div>
@@ -100,6 +100,10 @@ export default {
   display: flex;
   flex-wrap: wrap;
 
+  .margin-med {
+    margin: 2px 0;
+  }
+
   #date-p {
     color: rgb(124, 124, 124);
     font-size: 1rem;
@@ -111,18 +115,16 @@ export default {
   h2 {
     flex-basis: 100%;
     text-align: left;
-    margin: 3px 0;
   }
 
   h4 {
     flex-basis: 100%;
     text-align: left;
-    margin: 0;
-    margin-bottom: 15px;
   }
 
   button {
     align-self: flex-start;
+    margin: 10px 0;
   }
 }
 
