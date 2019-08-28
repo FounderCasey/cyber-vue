@@ -140,14 +140,37 @@
             </div>
           </div>
           <div class="form-container" v-if="step === 2">
-            <p>Step 3</p>
-            <input type="submit" @click="onSubmit" />
+            <div>
+              <h2>{{title}}</h2>
+              <h3>
+                {{location}}
+                <span v-if="location != '' && locationType != ''">-&#160;</span>
+                <span id="onsite-special" v-if="locationType == 'Onsite'">{{locationType}}</span>
+                <span id="remote-special" v-if="locationType == 'Remote'">{{locationType}}</span>
+              </h3>
+              <h3>{{positionType}}</h3>
+              <p class="review" v-html="description"></p>
+            </div>
+          </div>
+          <div class="company-card">
+            <h2>{{company}}</h2>
+            <h3>
+              {{companyUrl}}
+              <span v-if="location != '' && locationType != ''">-&#160;</span>
+              <span id="onsite-special" v-if="locationType == 'Onsite'">{{locationType}}</span>
+              <span id="remote-special" v-if="locationType == 'Remote'">{{locationType}}</span>
+            </h3>
+            <h3>{{positionType}}</h3>
+            <p class="review">{{companyDescription}}</p>
+          </div>
+          <div class="flex-center">
+            <button class="post-btn new-btn" v-if="step > 0" @click="step--">Back</button>
+            <input class="post-btn new-btn" v-if="step == 2" type="submit" @click="onSubmit" />
+            <button class="post-btn new-btn" v-if="step < 2" @click="step++">Next</button>
           </div>
         </form>
       </div>
     </div>
-    <button class="post-btn new-btn" v-if="step > 0" @click="step--">Back</button>
-    <button class="post-btn new-btn" v-if="step < 2" @click="step++">Next</button>
   </section>
 </template>
 
@@ -192,30 +215,31 @@ export default {
       });
     },
     onSubmit: function() {
-      db.collection("postings")
-        .add({
-          title: this.title,
-          location: this.location,
-          locationType: this.locationType,
-          positionType: this.positionType,
-          description: this.description,
-          company: this.company,
-          companyUrl: this.companyUrl,
-          companyImage: this.companyImage,
-          companyDescription: this.companyDescription,
-          date: this.date,
-          featured: this.featured,
-          count: this.globalCount.count
-        })
-        .then(() => {
-          alert("added");
-          let updatedCount = this.globalCount.count + 1;
-          db.collection("global")
-            .doc("global_count")
-            .set({
-              count: updatedCount
-            });
-        });
+      alert("WORKING");
+      // db.collection("postings")
+      //   .add({
+      //     title: this.title,
+      //     location: this.location,
+      //     locationType: this.locationType,
+      //     positionType: this.positionType,
+      //     description: this.description,
+      //     company: this.company,
+      //     companyUrl: this.companyUrl,
+      //     companyImage: this.companyImage,
+      //     companyDescription: this.companyDescription,
+      //     date: this.date,
+      //     featured: this.featured,
+      //     count: this.globalCount.count
+      //   })
+      //   .then(() => {
+      //     alert("added");
+      //     let updatedCount = this.globalCount.count + 1;
+      //     db.collection("global")
+      //       .doc("global_count")
+      //       .set({
+      //         count: updatedCount
+      //       });
+      //   });
     }
   },
   firestore() {
@@ -262,6 +286,12 @@ hr {
       margin-bottom: 5px;
     }
   }
+}
+
+.flex-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .form-container {
