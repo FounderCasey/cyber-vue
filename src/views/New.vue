@@ -151,21 +151,21 @@
               <h3>{{positionType}}</h3>
               <p class="review" v-html="description"></p>
             </div>
-          </div>
-          <div class="company-card">
-            <h2>{{company}}</h2>
-            <h3>
-              {{companyUrl}}
-              <span v-if="location != '' && locationType != ''">-&#160;</span>
-              <span id="onsite-special" v-if="locationType == 'Onsite'">{{locationType}}</span>
-              <span id="remote-special" v-if="locationType == 'Remote'">{{locationType}}</span>
-            </h3>
-            <h3>{{positionType}}</h3>
-            <p class="review">{{companyDescription}}</p>
+            <div class="company-card">
+              <h2>{{company}}</h2>
+              <h3>
+                {{companyUrl}}
+                <span v-if="location != '' && locationType != ''">-&#160;</span>
+                <span id="onsite-special" v-if="locationType == 'Onsite'">{{locationType}}</span>
+                <span id="remote-special" v-if="locationType == 'Remote'">{{locationType}}</span>
+              </h3>
+              <h3>{{positionType}}</h3>
+              <p class="review">{{companyDescription}}</p>
+            </div>
           </div>
           <div class="flex-center">
             <button class="post-btn new-btn" v-if="step > 0" @click="step--">Back</button>
-            <input class="post-btn new-btn" v-if="step == 2" type="submit" @click="onSubmit" />
+            <input class="post-btn new-btn" v-if="step == 2" type="submit" @click="purchase" />
             <button class="post-btn new-btn" v-if="step < 2" @click="step++">Next</button>
           </div>
         </form>
@@ -181,11 +181,15 @@ import { EventBus } from "../event-bus.js";
 import firebase from "firebase";
 import { db } from "../main";
 import VueMoment from "vue-moment";
+import axios from "axios";
+
+var stripe = Stripe("pk_test_2bQCHjLC9ayiIBuTycUQOjkc006EL3oHwL");
 
 export default {
   name: "new",
   data() {
     return {
+      sessionId: "",
       globalCount: [],
       step: 0,
       title: "",
@@ -215,31 +219,73 @@ export default {
       });
     },
     onSubmit: function() {
-      alert("WORKING");
-      // db.collection("postings")
-      //   .add({
-      //     title: this.title,
-      //     location: this.location,
-      //     locationType: this.locationType,
-      //     positionType: this.positionType,
-      //     description: this.description,
-      //     company: this.company,
-      //     companyUrl: this.companyUrl,
-      //     companyImage: this.companyImage,
-      //     companyDescription: this.companyDescription,
-      //     date: this.date,
-      //     featured: this.featured,
-      //     count: this.globalCount.count
-      //   })
-      //   .then(() => {
-      //     alert("added");
-      //     let updatedCount = this.globalCount.count + 1;
-      //     db.collection("global")
-      //       .doc("global_count")
-      //       .set({
-      //         count: updatedCount
-      //       });
-      //   });
+      db.collection("postings")
+        .add({
+          title: this.title,
+          location: this.location,
+          locationType: this.locationType,
+          positionType: this.positionType,
+          description: this.description,
+          company: this.company,
+          companyUrl: this.companyUrl,
+          companyImage: this.companyImage,
+          companyDescription: this.companyDescription,
+          date: this.date,
+          featured: this.featured,
+          count: this.globalCount.count
+        })
+        .then(() => {
+          alert("added");
+          let updatedCount = this.globalCount.count + 1;
+          db.collection("global")
+            .doc("global_count")
+            .set({
+              count: updatedCount
+            });
+        });
+    },
+    purchase: function() {
+      axios
+        .get(
+          "https://us-central1-cyber-board.cloudfunctions.net/CheckoutSession"
+        )
+        .then(response => {
+          this.sessionId = response.data;
+          console.log("response data: " + response.data);
+          stripe
+            .redirectToCheckout({
+              sessionId: this.sessionId.id
+            })
+            .then(function(result) {
+              db.collection("postings")
+                .add({
+                  title: this.title,
+                  location: this.location,
+                  locationType: this.locationType,
+                  positionType: this.positionType,
+                  description: this.description,
+                  company: this.company,
+                  companyUrl: this.companyUrl,
+                  companyImage: this.companyImage,
+                  companyDescription: this.companyDescription,
+                  date: this.date,
+                  featured: this.featured,
+                  count: this.globalCount.count
+                })
+                .then(() => {
+                  alert("added");
+                  let updatedCount = this.globalCount.count + 1;
+                  db.collection("global")
+                    .doc("global_count")
+                    .set({
+                      count: updatedCount
+                    });
+                });
+            });
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   firestore() {
