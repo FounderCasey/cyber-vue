@@ -162,6 +162,7 @@
               <h3>{{positionType}}</h3>
               <p class="review">{{companyDescription}}</p>
             </div>
+            <Elements></Elements>
           </div>
           <div class="flex-center">
             <button class="post-btn new-btn" v-if="step > 0" @click="step--">Back</button>
@@ -182,6 +183,7 @@ import firebase from "firebase";
 import { db } from "../main";
 import VueMoment from "vue-moment";
 import axios from "axios";
+import Elements from "../components/Elements";
 
 var stripe = Stripe("pk_test_2bQCHjLC9ayiIBuTycUQOjkc006EL3oHwL");
 
@@ -296,7 +298,8 @@ export default {
   components: {
     Editor,
     // eslint-disable-next-line
-    VueMoment
+    VueMoment,
+    Elements
   }
 };
 </script>

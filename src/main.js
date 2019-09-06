@@ -9,12 +9,16 @@ import Clipboard from "v-clipboard";
 import Notifications from 'vue-notification'
 import VueMoment from 'vue-moment';
 import moment from 'moment';
+import VueStripeCheckout from 'vue-stripe-checkout';
 
 Vue.use(firestorePlugin)
 Vue.use(Clipboard)
 Vue.use(Notifications)
 Vue.use(VueMoment, {
   moment,
+});
+Vue.use(VueStripeCheckout, {
+  publishableKey: 'pk_test_2bQCHjLC9ayiIBuTycUQOjkc006EL3oHwL'
 });
 
 Vue.config.productionTip = false

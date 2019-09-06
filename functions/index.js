@@ -27,3 +27,17 @@ exports.CheckoutSession = functions.https.onRequest((request, response) => {
     });
   });
 });
+
+exports.PurchaseAd = functions.https.onRequest((request, response) => {
+  cors(request, response, async () => {
+    const token = request.body.stripeToken;
+    console.log(token)
+    const charge = await stripe.charges.create({
+      amount: 9999,
+      currency: 'usd',
+      description: 'Example charge',
+      source: token,
+    });
+    console.log("Should have went through")
+  });
+});
