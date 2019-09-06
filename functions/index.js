@@ -31,12 +31,20 @@ exports.CheckoutSession = functions.https.onRequest((request, response) => {
 exports.PurchaseAd = functions.https.onRequest((request, response) => {
   cors(request, response, async () => {
     const token = request.body.stripeToken;
+    const db = functions.firestore.document(`postings/{id}`);
     console.log(token)
-    const charge = await stripe.charges.create({
+    stripe.charges.create({
       amount: 9999,
       currency: 'usd',
       description: 'Example charge',
-      source: token,
+      source: "tok_mastercard",
+    }, function (error, charge) {
+      // asynchronously called
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(charge);
+      }
     });
     console.log("Should have went through")
   });

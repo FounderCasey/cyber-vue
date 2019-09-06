@@ -8,12 +8,6 @@
 <script>
 import axios from "axios";
 
-const cors = require("cors")({
-  origin: true
-});
-
-const stripe = require("stripe")("sk_test_6Tb9b7fn7kR3c9vcKoYOW1kp00vvWV2cKg");
-
 export default {
   data: () => ({
     loading: false,
@@ -33,20 +27,17 @@ export default {
         amount: this.amount,
         description: this.description
       };
+      console.log();
       axios
         .get(
-          `https://us-central1-cyber-board.cloudfunctions.net/PurchaseAd?token=${token.id}`
+          `https://us-central1-cyber-board.cloudfunctions.net/PurchaseAd?stripeToken=${this.token.id}`
         )
-        .then(function(response) {
+        .then(response => {
           console.log(response);
         })
-        .catch(function(error) {
+        .catch(error => {
           console.log(error);
         });
-      sendTokenToServer(this.token);
-    },
-    sendTokenToServer(charge) {
-      //send charge to server
     }
   }
 };

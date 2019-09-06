@@ -185,13 +185,10 @@ import VueMoment from "vue-moment";
 import axios from "axios";
 import Elements from "../components/Elements";
 
-var stripe = Stripe("pk_test_2bQCHjLC9ayiIBuTycUQOjkc006EL3oHwL");
-
 export default {
   name: "new",
   data() {
     return {
-      sessionId: "",
       globalCount: [],
       step: 0,
       title: "",
@@ -234,6 +231,7 @@ export default {
           companyDescription: this.companyDescription,
           date: this.date,
           featured: this.featured,
+          active: false,
           count: this.globalCount.count
         })
         .then(() => {
@@ -244,46 +242,25 @@ export default {
             .set({
               count: updatedCount
             });
+
+          // Process stripe charge
+          axios
+            .get(
+              `https://us-central1-cyber-board.cloudfunctions.net/PurchaseAd`
+            )
+            .then(response => {
+              console.log(response);
+            })
+            .catch(error => {
+              console.log(error);
+            });
         });
     },
     purchase: function() {
       axios
-        .get(
-          "https://us-central1-cyber-board.cloudfunctions.net/CheckoutSession"
-        )
+        .get(`https://us-central1-cyber-board.cloudfunctions.net/PurchaseAd`)
         .then(response => {
-          this.sessionId = response.data;
-          console.log("response data: " + response.data);
-          stripe
-            .redirectToCheckout({
-              sessionId: this.sessionId.id
-            })
-            .then(function(result) {
-              db.collection("postings")
-                .add({
-                  title: this.title,
-                  location: this.location,
-                  locationType: this.locationType,
-                  positionType: this.positionType,
-                  description: this.description,
-                  company: this.company,
-                  companyUrl: this.companyUrl,
-                  companyImage: this.companyImage,
-                  companyDescription: this.companyDescription,
-                  date: this.date,
-                  featured: this.featured,
-                  count: this.globalCount.count
-                })
-                .then(() => {
-                  alert("added");
-                  let updatedCount = this.globalCount.count + 1;
-                  db.collection("global")
-                    .doc("global_count")
-                    .set({
-                      count: updatedCount
-                    });
-                });
-            });
+          console.log(response);
         })
         .catch(error => {
           console.log(error);
