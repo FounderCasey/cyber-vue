@@ -257,6 +257,7 @@ export default {
         });
     },
     purchase: function() {
+      console.log("axios");
       axios
         .get(`https://us-central1-cyber-board.cloudfunctions.net/PurchaseAd`)
         .then(response => {

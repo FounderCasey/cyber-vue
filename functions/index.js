@@ -7,36 +7,14 @@ const admin = require('firebase-admin');
 
 admin.initializeApp();
 
-exports.CheckoutSession = functions.https.onRequest((request, response) => {
-  cors(request, response, async () => {
-
-    stripe.checkout.sessions.create({
-      success_url: "https://cyber-board.firebaseapp.com",
-      cancel_url: "https://example.com/cancel",
-      payment_method_types: ["card"],
-      line_items: [{
-        name: 'CyberJobs Posting',
-        description: 'The first step to hiring a great security team.',
-        images: ['https://images.unsplash.com/photo-1511919884226-fd3cad34687c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80'],
-        amount: 9900,
-        currency: 'usd',
-        quantity: 1,
-      }]
-    }, function (err, session) {
-      response.send(session)
-    });
-  });
-});
-
 exports.PurchaseAd = functions.https.onRequest((request, response) => {
   cors(request, response, async () => {
     const token = request.body.stripeToken;
     const db = functions.firestore.document(`postings/{id}`);
-    console.log(token)
-    stripe.charges.create({
+    const charge = await stripe.charges.create({
       amount: 9999,
       currency: 'usd',
-      description: 'Example charge',
+      description: 'CyberJobs Posting',
       source: "tok_mastercard",
     }, function (error, charge) {
       // asynchronously called
@@ -46,6 +24,5 @@ exports.PurchaseAd = functions.https.onRequest((request, response) => {
         console.log(charge);
       }
     });
-    console.log("Should have went through")
   });
 });
