@@ -279,8 +279,7 @@ export default {
           return;
         } else {
           purchase({ token: result.token }).then(function(res) {
-            console.log("This is the result: " + res);
-            console.log(res);
+            console.log(res.data);
           });
         }
       });

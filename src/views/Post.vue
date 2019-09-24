@@ -76,7 +76,7 @@ export default {
     },
     copy: function() {
       // TODO: Change link
-      let link = `https://cyber-board.firebaseapp.com/${this.key}`; //TODO: change to real domain
+      let link = `https://cyber-board.firebaseapp.com/${this.key}`;
       this.$clipboard(link);
       this.$notify({
         group: "notifs",

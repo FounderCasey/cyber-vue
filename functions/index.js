@@ -8,6 +8,7 @@ const admin = require('firebase-admin');
 admin.initializeApp();
 
 exports.Purchase = functions.https.onCall((data, context) => {
+  let paymentSuccess = false;
   const stripe = require('stripe')('sk_test_6Tb9b7fn7kR3c9vcKoYOW1kp00vvWV2cKg');
 
   const token = data.token;
@@ -20,6 +21,13 @@ exports.Purchase = functions.https.onCall((data, context) => {
       currency: 'usd',
       description: 'TEST CHARGE',
       source: token.id,
+    }).then((result) => {
+      paymentSuccess = true;
+      return {
+        success: paymentSuccess
+      };
+    }).catch((error) => {
+      throw new functions.https.HttpsError('unknown', error.message, error);
     });
   })();
 });
