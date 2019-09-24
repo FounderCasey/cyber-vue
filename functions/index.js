@@ -7,22 +7,19 @@ const admin = require('firebase-admin');
 
 admin.initializeApp();
 
-exports.PurchaseAd = functions.https.onRequest((request, response) => {
-  cors(request, response, async () => {
-    const token = request.body.stripeToken;
-    const db = functions.firestore.document(`postings/{id}`);
+exports.Purchase = functions.https.onCall((data, context) => {
+  const stripe = require('stripe')('sk_test_6Tb9b7fn7kR3c9vcKoYOW1kp00vvWV2cKg');
+
+  const token = data.token;
+
+  console.log(token);
+
+  (async () => {
     const charge = await stripe.charges.create({
-      amount: 9999,
+      amount: 99999,
       currency: 'usd',
-      description: 'CyberJobs Posting',
-      source: "tok_mastercard",
-    }, function (error, charge) {
-      // asynchronously called
-      if (error) {
-        console.log(error);
-      } else {
-        console.log(charge);
-      }
+      description: 'TEST CHARGE',
+      source: token.id,
     });
-  });
+  })();
 });

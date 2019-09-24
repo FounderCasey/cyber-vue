@@ -162,7 +162,7 @@
               <h3>{{positionType}}</h3>
               <p class="review">{{companyDescription}}</p>
             </div>
-            <Elements></Elements>
+            <div ref="card"></div>
           </div>
           <div class="flex-center">
             <button class="post-btn new-btn" v-if="step > 0" @click="step--">Back</button>
@@ -183,14 +183,17 @@ import firebase from "firebase";
 import { db } from "../main";
 import VueMoment from "vue-moment";
 import axios from "axios";
-import Elements from "../components/Elements";
+
+let stripe = Stripe(`pk_test_2bQCHjLC9ayiIBuTycUQOjkc006EL3oHwL`),
+  elements = stripe.elements(),
+  card = undefined;
 
 export default {
   name: "new",
   data() {
     return {
       globalCount: [],
-      step: 0,
+      step: 2,
       title: "",
       location: "",
       locationType: "",
@@ -203,6 +206,26 @@ export default {
       date: this.$moment().format("MMMM, Do"),
       featured: false
     };
+  },
+  mounted: function() {
+    var style = {
+      base: {
+        color: "#32325d",
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: "antialiased",
+        fontSize: "16px",
+        "::placeholder": {
+          color: "#aab7c4"
+        }
+      },
+      invalid: {
+        color: "#fa755a",
+        iconColor: "#fa755a"
+      }
+    };
+
+    card = elements.create("card", { style: style });
+    card.mount(this.$refs.card);
   },
   methods: {
     prev: function() {
@@ -242,30 +265,25 @@ export default {
             .set({
               count: updatedCount
             });
-
-          // Process stripe charge
-          axios
-            .get(
-              `https://us-central1-cyber-board.cloudfunctions.net/PurchaseAd`
-            )
-            .then(response => {
-              console.log(response);
-            })
-            .catch(error => {
-              console.log(error);
-            });
         });
     },
     purchase: function() {
-      console.log("axios");
-      axios
-        .get(`https://us-central1-cyber-board.cloudfunctions.net/PurchaseAd`)
-        .then(response => {
-          console.log(response);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      let self = this;
+
+      stripe.createToken(card).then(function(result) {
+        var purchase = firebase.functions().httpsCallable("Purchase");
+
+        if (result.error) {
+          self.hasCardErrors = true;
+          self.$forceUpdate(); // Forcing the DOM to update so the Stripe Element can update.
+          return;
+        } else {
+          purchase({ token: result.token }).then(function(res) {
+            console.log("This is the result: " + res);
+            console.log(res);
+          });
+        }
+      });
     }
   },
   firestore() {
@@ -276,8 +294,7 @@ export default {
   components: {
     Editor,
     // eslint-disable-next-line
-    VueMoment,
-    Elements
+    VueMoment
   }
 };
 </script>
