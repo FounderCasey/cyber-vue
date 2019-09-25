@@ -162,8 +162,8 @@
               <h3>{{positionType}}</h3>
               <p class="review">{{companyDescription}}</p>
             </div>
-            <div ref="card"></div>
           </div>
+          <div v-show="step == 2" ref="card"></div>
           <div class="flex-center">
             <button class="post-btn new-btn" v-if="step > 0" @click="step--">Back</button>
             <input class="post-btn new-btn" v-if="step == 2" type="submit" @click="purchase" />
@@ -182,7 +182,6 @@ import { EventBus } from "../event-bus.js";
 import firebase from "firebase";
 import { db } from "../main";
 import VueMoment from "vue-moment";
-import axios from "axios";
 
 let stripe = Stripe(`pk_test_2bQCHjLC9ayiIBuTycUQOjkc006EL3oHwL`),
   elements = stripe.elements(),
@@ -226,6 +225,7 @@ export default {
 
     card = elements.create("card", { style: style });
     card.mount(this.$refs.card);
+    this.step = 0;
   },
   methods: {
     prev: function() {
@@ -270,7 +270,7 @@ export default {
     purchase: function() {
       let self = this;
 
-      stripe.createToken(card).then(function(result) {
+      stripe.createToken(card).then(result => {
         var purchase = firebase.functions().httpsCallable("Purchase");
 
         if (result.error) {
@@ -278,9 +278,18 @@ export default {
           self.$forceUpdate(); // Forcing the DOM to update so the Stripe Element can update.
           return;
         } else {
-          purchase({ token: result.token }).then(function(res) {
-            // add success and error logic here
-          });
+          purchase({ token: result.token })
+            .then(res => {
+              console.log(res.data);
+              if (res.data.payment === true) {
+                this.addPosting();
+              } else {
+                alert("There was an error with your payment.");
+              }
+            })
+            .catch(e => {
+              console.log(e);
+            });
         }
       });
     }

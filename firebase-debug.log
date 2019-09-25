@@ -1,0 +1,136 @@
+[debug] [2019-09-25T09:30:36.573Z] ----------------------------------------------------------------------
+[debug] [2019-09-25T09:30:36.576Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
+[debug] [2019-09-25T09:30:36.577Z] CLI Version:   7.3.1
+[debug] [2019-09-25T09:30:36.577Z] Platform:      darwin
+[debug] [2019-09-25T09:30:36.577Z] Node Version:  v10.16.3
+[debug] [2019-09-25T09:30:36.580Z] Time:          Wed Sep 25 2019 02:30:36 GMT-0700 (Pacific Daylight Time)
+[debug] [2019-09-25T09:30:36.580Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-09-25T09:30:36.595Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-09-25T09:30:36.596Z] > authorizing via signed-in user
+[debug] [2019-09-25T09:30:36.596Z] [iam] checking project cyber-board for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2019-09-25T09:30:36.599Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-09-25T09:30:36.599Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-09-25T09:30:36.878Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:30:36.888Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/cyber-board:testIamPermissions  
+
+[debug] [2019-09-25T09:30:37.114Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:30:37.117Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/cyber-board  
+ 
+[debug] [2019-09-25T09:30:37.435Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'cyber-board'...
+[info] 
+[info] i  deploying functions, hosting
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
+[info] ✔  functions: Finished running predeploy script.
+[debug] [2019-09-25T09:30:43.474Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase serve --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "8"
+  },
+  "dependencies": {
+    "firebase-admin": "^8.0.0",
+    "firebase-functions": "^3.1.0",
+    "stripe": "^7.8.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.12.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "firebase-functions-test": "^0.1.6"
+  },
+  "private": true
+}
+[info] i  functions: ensuring necessary APIs are enabled...
+[debug] [2019-09-25T09:30:43.476Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/cyber-board/services/cloudfunctions.googleapis.com  
+ 
+[debug] [2019-09-25T09:30:43.477Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/cyber-board/services/runtimeconfig.googleapis.com  
+ 
+[debug] [2019-09-25T09:30:44.127Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:30:44.151Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: all necessary APIs are enabled
+[debug] [2019-09-25T09:30:44.152Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/cyber-board/adminSdkConfig  
+ 
+[debug] [2019-09-25T09:30:44.380Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:30:44.383Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/cyber-board/versions  
+
+[debug] [2019-09-25T09:30:45.543Z] <<< HTTP RESPONSE 200
+[info] i  functions: preparing functions directory for uploading...
+[debug] [2019-09-25T09:30:45.548Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/cyber-board/configs  
+ 
+[debug] [2019-09-25T09:30:46.481Z] <<< HTTP RESPONSE 200
+[info] i  functions: packaged functions (35.88 KB) for uploading
+[debug] [2019-09-25T09:30:46.852Z] >>> HTTP REQUEST POST https://cloudfunctions.googleapis.com/v1/projects/cyber-board/locations/us-central1/functions:generateUploadUrl  
+ 
+[debug] [2019-09-25T09:30:47.759Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:30:47.760Z] >>> HTTP REQUEST PUT https://storage.googleapis.com/gcf-upload-us-central1-6aa73246-c954-487d-9f7b-787525c578fb/690953c6-b075-44bd-a136-03b9265632e1.zip?GoogleAccessId=service-701524438649@gcf-admin-robot.iam.gserviceaccount.com&Expires=1569405647&Signature=JCFD8DURCCtR%2BMybfMugClB67pXoDfaippApDqoW0hsu07kw4aQOb31Bslt7VXG6jzDNB9LUqNvmhGNq0gNoYfeHtAjp5PwUfh462AgudkRpLtFRIWtH4pX2p8cRuj3NajqZHyF4fKh8RlSszj5nq8zZeFv9HFUOo56Y6Xy5zCaSBRyFGXtCOHAM%2BLRTlMjiXoem1BMq4uJAqj6JqipuT3Vekv6NPmolGRH%2BwtRWU0wgtCTpir7CQsJN0ns2%2B61B%2FSZ9Qg5SHRrE5RvFs8Gk%2F628Ok1ojhONzKcjqWb8V6nYsJ9vnmABq39hCt%2B%2F5kS7bcjba7bXZke41sNoHLHuxA%3D%3D  
+ <request body omitted>
+[debug] [2019-09-25T09:30:48.102Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: functions folder uploaded successfully
+[info] i  hosting[cyber-board]: beginning deploy...
+[info] i  hosting[cyber-board]: found 10 files in ./dist
+[debug] [2019-09-25T09:30:48.116Z] [hosting] hash cache [ZGlzdA] load error: lines is not defined
+[debug] [2019-09-25T09:30:49.247Z] [hosting] hash cache [ZGlzdA] stored for 10 files
+[debug] [2019-09-25T09:30:49.247Z] [hosting][hash queue][FINAL]
+[debug] [2019-09-25T09:30:49.248Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/cyber-board/versions/a2eb9bb69df167d3:populateFiles  
+ <request body omitted>
+[debug] [2019-09-25T09:30:51.321Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:30:51.327Z] [hosting][populate queue][FINAL]
+[debug] [2019-09-25T09:30:51.327Z] [hosting] uploads queued: 6
+[debug] [2019-09-25T09:30:56.107Z] [hosting][upload queue][FINAL]
+[info] ✔  hosting[cyber-board]: file upload complete
+[debug] [2019-09-25T09:30:56.108Z] [hosting] deploy completed after 8004ms
+[debug] [2019-09-25T09:30:56.291Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/projects/cyber-board/locations/-/functions  
+ 
+[debug] [2019-09-25T09:30:56.927Z] <<< HTTP RESPONSE 200
+[info] i  functions: updating Node.js 8 function Purchase(us-central1)...
+[debug] [2019-09-25T09:30:56.933Z] Trigger is:  {"httpsTrigger":{}}
+[debug] [2019-09-25T09:30:56.935Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/cyber-board/services/cloudscheduler.googleapis.com  
+ 
+[debug] [2019-09-25T09:30:57.438Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:30:57.442Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/cyber-board/locations/us-central1/functions/Purchase {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2019-09-25T09:30:58.257Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:30:58.261Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/projects/cyber-board/locations/-/functions  
+ 
+[debug] [2019-09-25T09:30:58.871Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:30:58.873Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y3liZXItYm9hcmQvdXMtY2VudHJhbDEvUHVyY2hhc2UvNV9MSVBvLVVYNzA  
+ 
+[debug] [2019-09-25T09:30:59.282Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:31:01.288Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y3liZXItYm9hcmQvdXMtY2VudHJhbDEvUHVyY2hhc2UvNV9MSVBvLVVYNzA  
+ 
+[debug] [2019-09-25T09:31:01.479Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:31:03.484Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y3liZXItYm9hcmQvdXMtY2VudHJhbDEvUHVyY2hhc2UvNV9MSVBvLVVYNzA  
+ 
+[debug] [2019-09-25T09:31:03.993Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:31:05.996Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y3liZXItYm9hcmQvdXMtY2VudHJhbDEvUHVyY2hhc2UvNV9MSVBvLVVYNzA  
+ 
+[debug] [2019-09-25T09:31:06.451Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:31:08.457Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y3liZXItYm9hcmQvdXMtY2VudHJhbDEvUHVyY2hhc2UvNV9MSVBvLVVYNzA  
+ 
+[debug] [2019-09-25T09:31:08.908Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:31:10.910Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y3liZXItYm9hcmQvdXMtY2VudHJhbDEvUHVyY2hhc2UvNV9MSVBvLVVYNzA  
+ 
+[debug] [2019-09-25T09:31:11.092Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:31:13.093Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y3liZXItYm9hcmQvdXMtY2VudHJhbDEvUHVyY2hhc2UvNV9MSVBvLVVYNzA  
+ 
+[debug] [2019-09-25T09:31:13.515Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:31:15.520Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y3liZXItYm9hcmQvdXMtY2VudHJhbDEvUHVyY2hhc2UvNV9MSVBvLVVYNzA  
+ 
+[debug] [2019-09-25T09:31:15.706Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:31:17.707Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y3liZXItYm9hcmQvdXMtY2VudHJhbDEvUHVyY2hhc2UvNV9MSVBvLVVYNzA  
+ 
+[debug] [2019-09-25T09:31:18.125Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-25T09:31:20.131Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y3liZXItYm9hcmQvdXMtY2VudHJhbDEvUHVyY2hhc2UvNV9MSVBvLVVYNzA  
+ 
+[debug] [2019-09-25T09:31:20.581Z] <<< HTTP RESPONSE 200

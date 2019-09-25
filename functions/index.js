@@ -8,25 +8,34 @@ const admin = require('firebase-admin');
 admin.initializeApp();
 
 exports.Purchase = functions.https.onCall((data) => {
-  let paymentSuccess = false;
+  var paymentSuccess = false;
   const stripe = require('stripe')('sk_test_6Tb9b7fn7kR3c9vcKoYOW1kp00vvWV2cKg');
 
   const token = data.token;
 
-  (async () => {
-    const charge = await stripe.charges.create({
+  let myFirstPromise = new Promise((resolve, reject) => {
+    let payment = false;
+    const charge = stripe.charges.create({
       amount: 99999,
       currency: 'usd',
       description: 'TEST CHARGE',
-      source: token.id,
+      source: token.id
     }).then((result) => {
-      // Make sure stripe payment went through
-      return {
-        success: paymentSuccess
+      if (result.status === 'succeeded') {
+        payment = true;
+        console.log("Payment was successful, update payment");
+        resolve(payment)
       }
-    }).catch((error) => {
-      throw new functions.https.HttpsError('unknown', error.message, error);
-    });
-    console.log(charge)
-  })();
+      return payment;
+    }).catch((err) => {
+      throw new functions.https.HttpsError('unknown', err.message, err)
+    })
+  });
+
+  return myFirstPromise.then((payment) => {
+    console.log(payment);
+    return {
+      payment: payment
+    }
+  })
 });
