@@ -240,7 +240,7 @@ export default {
         return `${html}`;
       });
     },
-    onSubmit: function() {
+    addPosting: function() {
       db.collection("postings")
         .add({
           title: this.title,
@@ -279,7 +279,7 @@ export default {
           return;
         } else {
           purchase({ token: result.token }).then(function(res) {
-            console.log(res.data);
+            // add success and error logic here
           });
         }
       });

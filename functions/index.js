@@ -7,13 +7,11 @@ const admin = require('firebase-admin');
 
 admin.initializeApp();
 
-exports.Purchase = functions.https.onCall((data, context) => {
+exports.Purchase = functions.https.onCall((data) => {
   let paymentSuccess = false;
   const stripe = require('stripe')('sk_test_6Tb9b7fn7kR3c9vcKoYOW1kp00vvWV2cKg');
 
   const token = data.token;
-
-  console.log(token);
 
   (async () => {
     const charge = await stripe.charges.create({
@@ -22,12 +20,13 @@ exports.Purchase = functions.https.onCall((data, context) => {
       description: 'TEST CHARGE',
       source: token.id,
     }).then((result) => {
-      paymentSuccess = true;
+      // Make sure stripe payment went through
       return {
         success: paymentSuccess
-      };
+      }
     }).catch((error) => {
       throw new functions.https.HttpsError('unknown', error.message, error);
     });
+    console.log(charge)
   })();
 });
