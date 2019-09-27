@@ -19,10 +19,18 @@
     <div>
       <div class="form-container">
         <form @submit.prevent>
-          <div class="form-container" v-if="step === 0">
+          <div class="form-container" v-show="step === 0">
             <div class="flex-full">
-              <p>Company</p>
-              <input type="text" v-model="company" />
+              <div class="flex-row">
+                <div class="flex-half">
+                  <p>Company</p>
+                  <input type="text" v-model="company" />
+                </div>
+                <div class="flex-half">
+                  <p>Application URL</p>
+                  <input type="text" id="input-greater" v-model="applicationUrl" />
+                </div>
+              </div>
             </div>
             <div class="flex-full">
               <div class="flex-row">
@@ -56,7 +64,7 @@
               </div>
             </div>
           </div>
-          <div class="form-container" v-if="step === 1">
+          <div class="form-container" v-show="step === 1">
             <div class="flex-full">
               <p>Job Title</p>
               <input type="text" v-model="title" />
@@ -139,7 +147,7 @@
               <p class="review" v-html="description"></p>
             </div>
           </div>
-          <div class="form-container" v-if="step === 2">
+          <div class="form-container" v-show="step === 2">
             <div>
               <h2>{{title}}</h2>
               <h3>
@@ -163,7 +171,10 @@
               <p class="review">{{companyDescription}}</p>
             </div>
           </div>
-          <div v-show="step == 2" ref="card"></div>
+          <div v-show="step==2" id="card">
+            <h3>Pay with card</h3>
+            <div v-show="step == 2" ref="card"></div>
+          </div>
           <div class="flex-center">
             <button class="post-btn new-btn" v-if="step > 0" @click="step--">Back</button>
             <input class="post-btn new-btn" v-if="step == 2" type="submit" @click="purchase" />
@@ -199,6 +210,7 @@ export default {
       positionType: "",
       description: this.exportedHTML(),
       company: "",
+      applicationUrl: "",
       companyUrl: "",
       companyImage: "",
       companyDescription: "",
@@ -249,6 +261,7 @@ export default {
           positionType: this.positionType,
           description: this.description,
           company: this.company,
+          applicationUrl: this.applicationUrl,
           companyUrl: this.companyUrl,
           companyImage: this.companyImage,
           companyDescription: this.companyDescription,
@@ -280,15 +293,13 @@ export default {
         } else {
           purchase({ token: result.token })
             .then(res => {
-              console.log(res.data);
               if (res.data.payment === true) {
                 this.addPosting();
-              } else {
-                alert("There was an error with your payment.");
               }
             })
             .catch(e => {
               console.log(e);
+              alert("There was an error with your payment.");
             });
         }
       });
@@ -314,6 +325,18 @@ hr {
   background: #6558f5;
   outline: none;
   border: none;
+}
+
+#card {
+  padding: 15px 0;
+  width: 75%;
+  margin: auto;
+  h3 {
+    margin-top: 0;
+    padding: 5px 0;
+    border-bottom: solid #6558f5;
+    text-align: center;
+  }
 }
 
 #hr-top-margin {
