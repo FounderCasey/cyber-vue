@@ -218,6 +218,9 @@ export default {
       featured: false
     };
   },
+  created() {
+    this.$forceUpdate();
+  },
   mounted: function() {
     var style = {
       base: {
