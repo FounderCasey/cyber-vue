@@ -218,9 +218,6 @@ export default {
       featured: false
     };
   },
-  created() {
-    this.$forceUpdate();
-  },
   mounted: function() {
     var style = {
       base: {
@@ -274,13 +271,13 @@ export default {
           count: this.globalCount.count
         })
         .then(() => {
-          alert("added");
           let updatedCount = this.globalCount.count + 1;
           db.collection("global")
             .doc("global_count")
             .set({
               count: updatedCount
             });
+          this.$router.go();
         });
     },
     purchase: function() {
